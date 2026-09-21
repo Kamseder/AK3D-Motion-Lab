@@ -1,5 +1,9 @@
 /* AK3D compact layout refinements — loaded after theme.css */
 
+/* Keep the header navigation visually centered against the logo/title block. */
+.topbar{align-items:center!important}
+.topbar .tabs{margin:0!important;align-self:center!important;padding:0!important}
+
 /* Torque page: no nested scrollbar in the setup card. Keep the whole card visible
    in normal page flow, but keep labels/inputs comfortably readable. */
 #tab-torque .sidebar{
@@ -21,6 +25,10 @@
 #tab-torque .sidebar .hint{margin-top:5px!important;font-size:10px!important}
 #tab-torque .sidebar .section-head h2{font-size:14px!important}
 
+/* Motor names in the chart should be as readable as the setup labels. */
+#legend .legend-item{font-size:11px!important;gap:5px!important}
+#legend .swatch{width:18px!important;height:3px!important}
+
 /* Motor details are part of the torque page, not a collapsible extra. */
 .motor-details{padding:9px 10px 10px!important;overflow:visible!important}
 .motor-details summary{display:none!important}
@@ -40,26 +48,26 @@
   grid-template-columns:400px minmax(0,1fr)!important;
   align-items:start;
 }
-#tab-travel .tool-card{padding:12px!important}
-#tab-travel .card-title-row h2{font-size:16px!important}
-#tab-travel .card-title-row p{font-size:11px!important}
+#tab-travel .tool-card{padding:13px!important}
+#tab-travel .card-title-row h2{font-size:17px!important}
+#tab-travel .card-title-row p{font-size:12px!important}
 #tab-travel label>span{font-size:11px!important;margin-bottom:3px!important}
-#tab-travel .travel-top{margin-top:9px!important;gap:8px!important}
+#tab-travel .travel-top{margin-top:10px!important;gap:8px!important}
 #tab-travel .travel-top label{min-width:112px!important;width:112px!important}
-#tab-travel .travel-top input{padding:7px 8px!important;font-size:12px!important}
+#tab-travel .travel-top input{padding:7px 8px!important;font-size:13px!important}
 #tab-travel .preset-row{gap:4px!important}
-#tab-travel .preset-row button{padding:6px 8px!important;font-size:11px!important}
-#tab-travel .travel-profiles{gap:6px!important;margin:10px 0!important}
+#tab-travel .preset-row button{padding:7px 9px!important;font-size:12px!important}
+#tab-travel .travel-profiles{gap:6px!important;margin:11px 0!important}
 #tab-travel .travel-profile{
   grid-template-columns:7px 108px 74px 88px 29px!important;
   gap:5px!important;
   justify-content:start!important;
 }
-#tab-travel .travel-profile .motor-color{height:31px!important}
+#tab-travel .travel-profile .motor-color{height:32px!important}
 #tab-travel .travel-profile label>span{font-size:10px!important;margin-bottom:3px!important}
-#tab-travel .travel-profile input{padding:7px 7px!important;font-size:12px!important}
-#tab-travel .travel-profile .remove-slot{height:32px!important;padding:0!important}
-#tab-travel #addTravelProfile{padding:6px 9px!important;font-size:11px!important}
+#tab-travel .travel-profile input{padding:7px 7px!important;font-size:13px!important}
+#tab-travel .travel-profile .remove-slot{height:33px!important;padding:0!important}
+#tab-travel #addTravelProfile{padding:7px 10px!important;font-size:12px!important}
 
 /* Restore every result value and keep columns compact instead of stretching. */
 .travel-results-card{min-width:0!important}
@@ -72,47 +80,73 @@
 .travel-results th,.travel-results td{
   display:table-cell!important;
   width:auto!important;
-  padding:9px 9px!important;
+  padding:10px 10px!important;
 }
-.travel-results th{font-size:10px!important}
-.travel-results td{font-size:12px!important}
+.travel-results th{font-size:11px!important}
+.travel-results td{font-size:13px!important}
 .travel-results th:nth-child(1),.travel-results td:nth-child(1){min-width:128px!important;max-width:160px!important}
-.travel-results th:nth-child(2),.travel-results td:nth-child(2){min-width:88px!important}
-.travel-results th:nth-child(3),.travel-results td:nth-child(3){min-width:82px!important}
-.travel-results th:nth-child(4),.travel-results td:nth-child(4){min-width:92px!important}
-.travel-results th:nth-child(5),.travel-results td:nth-child(5){min-width:108px!important}
-.travel-results th:nth-child(6),.travel-results td:nth-child(6){min-width:70px!important}
-#tab-travel .travel-explain{margin-top:9px!important;padding:9px 10px!important;font-size:11px!important;line-height:1.45!important}
+.travel-results th:nth-child(2),.travel-results td:nth-child(2){min-width:90px!important}
+.travel-results th:nth-child(3),.travel-results td:nth-child(3){min-width:84px!important}
+.travel-results th:nth-child(4),.travel-results td:nth-child(4){min-width:94px!important}
+.travel-results th:nth-child(5),.travel-results td:nth-child(5){min-width:112px!important}
+.travel-results th:nth-child(6),.travel-results td:nth-child(6){min-width:72px!important}
+#tab-travel .travel-explain{margin-top:10px!important;padding:11px 12px!important;font-size:13px!important;line-height:1.5!important}
+
+/* Use the otherwise empty lower area for compact, useful move-profile guidance. */
+.travel-guide{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+.travel-guide-card{
+  background:#050505;
+  border:1px solid #252525;
+  border-radius:12px;
+  padding:15px 16px;
+  min-height:128px;
+}
+.travel-guide-card .guide-kicker{
+  display:block;
+  color:#888;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+.travel-guide-card b{display:block;color:#fff;font-size:16px;margin-bottom:6px}
+.travel-guide-card p{margin:0;color:#999;font-size:12px;line-height:1.5}
 
 /* Motor dropdowns keep brand + model readable. */
 #motorSlots select{font-size:11px!important}
 
 /* Matrix page: use the same readable visual scale as the torque page. */
-#tab-matrix .tool-card{padding:13px!important}
-#tab-matrix .card-title-row h2{font-size:16px!important}
-#tab-matrix .card-title-row p{font-size:11px!important}
-#tab-matrix label>span{font-size:11px!important;margin-bottom:4px!important}
-#tab-matrix input,#tab-matrix select{font-size:12px!important;padding:8px 9px!important}
-#tab-matrix .matrix-controls .hint{font-size:11px!important;line-height:1.45!important}
-#tab-matrix .matrix-legend .heat{font-size:10px!important;padding:4px 7px!important}
+#tab-matrix .tool-card{padding:14px!important}
+#tab-matrix .card-title-row h2{font-size:17px!important}
+#tab-matrix .card-title-row p{font-size:12px!important}
+#tab-matrix label>span{font-size:12px!important;margin-bottom:4px!important}
+#tab-matrix input,#tab-matrix select{font-size:13px!important;padding:9px 10px!important}
+#tab-matrix .matrix-controls .hint{font-size:12px!important;line-height:1.5!important}
+#tab-matrix .matrix-legend .heat{font-size:11px!important;padding:5px 8px!important}
 #tab-matrix .matrix-summary{gap:7px!important}
-#tab-matrix .summary-chip{font-size:11px!important;padding:7px 9px!important}
-#tab-matrix .matrix-table th{font-size:10px!important;padding:8px 7px!important}
-#tab-matrix .matrix-table td{font-size:12px!important;padding:8px 7px!important}
-#tab-matrix .matrix-table td small,#tab-matrix .matrix-table th small{font-size:9px!important;margin-top:2px!important}
+#tab-matrix .summary-chip{font-size:12px!important;padding:8px 10px!important}
+#tab-matrix .matrix-table th{font-size:11px!important;padding:9px 8px!important}
+#tab-matrix .matrix-table td{font-size:13px!important;padding:9px 8px!important}
+#tab-matrix .matrix-table td small,#tab-matrix .matrix-table th small{font-size:10px!important;margin-top:2px!important}
 .matrix-brand{
-  margin:7px 0 2px;
-  padding:7px 9px;
+  margin:8px 0 3px;
+  padding:8px 10px;
   border:1px solid #292929;
   border-radius:8px;
   background:#030303;
   color:#999;
-  font-size:11px;
+  font-size:12px;
 }
-.matrix-brand b{color:#fff;font-size:12px}
+.matrix-brand b{color:#fff;font-size:13px}
 
 @media(max-width:1050px){
   .travel-layout{grid-template-columns:1fr!important}
   .travel-results-card .table-scroll{overflow:auto!important}
   .travel-results{min-width:660px!important}
+  .travel-guide{grid-template-columns:1fr!important}
 }
