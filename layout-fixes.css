@@ -25,6 +25,16 @@
 #tab-torque .sidebar .hint{margin-top:5px!important;font-size:10px!important}
 #tab-torque .sidebar .section-head h2{font-size:14px!important}
 
+/* Display/action controls use the same Play face as the Motion Lab identity. */
+#customToggle,
+#flowAutoWidth,
+#flowUseMax,
+#flowReset{
+  font-family:var(--ak3d-display)!important;
+  font-weight:700!important;
+  letter-spacing:.035em;
+}
+
 /* Motor names in the chart should be as readable as the setup labels. */
 #legend .legend-item{font-size:11px!important;gap:5px!important}
 #legend .swatch{width:18px!important;height:3px!important}
@@ -35,12 +45,13 @@
 .motor-details .table-scroll{margin:0!important;border-top:0!important}
 .motor-details table{min-width:820px!important}
 
-/* Make the actual axis titles readable. JS tags them with this class. */
+/* Make the actual axis titles readable and match the Voron-inspired display face. */
 #torqueChart .ak-axis-title{
   fill:#fff!important;
+  font-family:var(--ak3d-display)!important;
   font-size:21px!important;
-  font-weight:760!important;
-  letter-spacing:.01em;
+  font-weight:700!important;
+  letter-spacing:.035em;
 }
 
 /* Travel page: compact control panel on the left, roomy full results on the right. */
@@ -103,18 +114,27 @@
   background:#050505;
   border:1px solid #252525;
   border-radius:12px;
-  padding:15px 16px;
-  min-height:128px;
+  padding:16px 17px;
+  min-height:132px;
 }
 .travel-guide-card .guide-kicker{
   display:block;
   color:#888;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:.1em;
-  margin-bottom:6px;
+  font-family:var(--ak3d-display);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.11em;
+  margin-bottom:7px;
 }
-.travel-guide-card b{display:block;color:#fff;font-size:16px;margin-bottom:6px}
+.travel-guide-card b{
+  display:block;
+  color:#fff;
+  font-family:var(--ak3d-display);
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:.025em;
+  margin-bottom:7px;
+}
 .travel-guide-card p{margin:0;color:#999;font-size:12px;line-height:1.5}
 
 /* Motor dropdowns keep brand + model readable. */
