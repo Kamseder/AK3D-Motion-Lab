@@ -4,201 +4,57 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="AK3D Motion Lab – a 3D printing calculator suite for stepper torque, travel time, acceleration/speed margin and volumetric flow.">
-  <title>AK3D Motion Lab · 3D Printing Calculator Suite</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="flow.css">
-  <script defer src="motors.js"></script>
-  <script defer src="preload.js"></script>
-  <script defer src="app.js"></script>
-  <script defer src="community.js"></script>
-  <script defer src="flow.js"></script>
+  <meta name="description" content="AK3D Motion Lab · 3D Printing Calculator Suite · Development preview">
+  <title>AK3D Motion Lab · Development Preview</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+    :root{color-scheme:dark;--bg:#050505;--panel:#0b0b0b;--line:#242424;--text:#f2f2f2;--muted:#777;--soft:#aaa}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+    body{min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:-30%;pointer-events:none;background:radial-gradient(circle at 50% 35%,rgba(255,255,255,.065),transparent 26%),radial-gradient(circle at 50% 100%,rgba(255,255,255,.025),transparent 28%)}
+    .page{position:relative;min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;padding:32px clamp(22px,5vw,72px) 22px}
+    .top{display:flex;align-items:center;gap:14px}
+    .logo{width:42px;height:42px;border-radius:9px;border:1px solid #292929;overflow:hidden;background:#111}
+    .logo img{width:100%;height:100%;display:block;object-fit:cover}
+    .brand{font-family:'Play',sans-serif;line-height:1}
+    .brand small{display:block;color:#838383;font-size:9px;font-weight:700;letter-spacing:.18em;margin-bottom:5px}
+    .brand b{font-size:17px;letter-spacing:.06em}
+    .stage{display:grid;place-items:center;text-align:center;padding:70px 0 90px}
+    .hero{width:min(920px,100%)}
+    .eyebrow{font-family:'Play',sans-serif;color:#868686;font-size:11px;font-weight:700;letter-spacing:.22em;margin-bottom:18px}
+    h1{font-family:'Play',sans-serif;font-size:clamp(48px,9vw,112px);line-height:.85;letter-spacing:.025em;margin:0;text-transform:uppercase}
+    h1 span{display:block;color:#5f5f5f;font-size:.44em;letter-spacing:.12em;margin-top:18px}
+    .copy{max-width:660px;margin:34px auto 0;color:#9a9a9a;font-size:clamp(14px,1.7vw,18px);line-height:1.65}
+    .status{display:inline-flex;align-items:center;gap:9px;margin-top:34px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,12,12,.78);font-family:'Play',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;color:#aaa}
+    .dot{width:7px;height:7px;border-radius:50%;background:#d5d5d5;box-shadow:0 0 16px rgba(255,255,255,.45);animation:pulse 1.7s ease-in-out infinite}
+    @keyframes pulse{50%{opacity:.28;transform:scale(.75)}}
+    .modules{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:28px}
+    .modules span{border:1px solid #1e1e1e;border-radius:7px;padding:7px 10px;color:#555;font-family:'Play',sans-serif;font-size:9px;font-weight:700;letter-spacing:.09em}
+    footer{align-self:end;color:#343434;font-size:9px;line-height:1.55;text-align:center;letter-spacing:.02em}
+    .secret{display:inline-block;color:#151515;text-decoration:none;font-size:6px;line-height:1;padding:10px 8px 10px 5px;margin:-10px -8px -10px -5px;transition:color .2s}
+    .secret:hover,.secret:focus{color:#555;outline:none}
+    @media(max-width:600px){.page{padding-top:22px}.stage{padding-top:55px}.modules{max-width:360px;margin-left:auto;margin-right:auto}}
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brandmark" href="https://github.com/Kamseder" target="_blank" rel="noopener" aria-label="AK3D Printing on GitHub">
-      <img src="https://avatars.githubusercontent.com/u/147354500?v=4" alt="AK3D Printing logo">
-    </a>
-    <div class="brandtext">
-      <span>AK3D PRINTING · CALCULATOR SUITE</span>
-      <h1>Motion Lab</h1>
-    </div>
-    <nav class="tabs" aria-label="Motion Lab sections">
-      <button class="tab active" data-tab="torque">Torque Curve</button>
-      <button class="tab" data-tab="travel">Travel Time</button>
-      <button class="tab" data-tab="matrix">Accel / Speed Matrix</button>
-      <button class="tab" data-tab="flow">Flow Calculator</button>
-    </nav>
-  </header>
+  <div class="page">
+    <header class="top">
+      <div class="logo"><img src="https://avatars.githubusercontent.com/u/147354500?v=4" alt="AK3D Printing"></div>
+      <div class="brand"><small>AK3D PRINTING</small><b>MOTION LAB</b></div>
+    </header>
 
-  <main class="page">
-    <section id="tab-torque" class="tab-panel active">
-      <div class="layout">
-        <aside class="card sidebar">
-          <div class="section-head"><h2>Setup</h2><button id="resetSetup" class="ghost small">Reset</button></div>
-          <div class="field-grid">
-            <label><span>Input voltage</span><div class="input-unit"><input id="voltage" type="number" value="48" step="1"><b>V</b></div></label>
-            <label><span>Drive current</span><div class="input-unit"><input id="driveCurrent" type="number" value="1.8" step="0.1"><b>A</b></div></label>
-            <label><span>Max drive</span><div class="input-unit"><input id="drivePercent" type="number" value="100" step="5"><b>%</b></div></label>
-            <label><span>Max motor power</span><div class="input-unit"><input id="maxPower" type="number" value="50" step="5"><b>W</b></div></label>
-            <label><span>Pulley</span><div class="input-unit"><input id="pulley" type="number" value="20" step="1"><b>T</b></div></label>
-            <label><span>Gear ratio</span><div class="input-unit"><input id="gear" type="number" value="1" step="0.1"><b>:1</b></div></label>
-            <label><span>Acceleration</span><div class="input-unit"><input id="accel" type="number" value="20000" step="1000"><b>mm/s²</b></div></label>
-            <label><span>Moving mass</span><div class="input-unit"><input id="mass" type="number" value="500" step="10"><b>g</b></div></label>
-            <label><span>Graph max</span><div class="input-unit"><input id="maxSpeed" type="number" value="3000" step="100"><b>mm/s</b></div></label>
-            <label><span>Resolution</span><div class="input-unit"><input id="resolution" type="number" value="20" step="10"><b>mm/s</b></div></label>
-          </div>
-
-          <div class="divider"></div>
-          <div class="section-head"><h2>Motors</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
-          <div id="motorSlots" class="motor-slots"></div>
-          <p class="hint">Up to 8 motors. Selections are stored locally in your browser.</p>
-
-          <div class="divider"></div>
-          <button id="customToggle" class="ghost full">+ Custom Motor</button>
-          <div id="customMotor" class="custom-box hidden">
-            <div class="field-grid compact">
-              <label class="wide"><span>Name</span><input id="cName" placeholder="e.g. AK Test 2504"></label>
-              <label><span>Rated current</span><input id="cCurrent" type="number" value="2.5" step="0.1"></label>
-              <label><span>Holding torque N·cm</span><input id="cTorque" type="number" value="55" step="1"></label>
-              <label><span>Inductance mH</span><input id="cInduct" type="number" value="1.5" step="0.1"></label>
-              <label><span>Resistance Ω</span><input id="cRes" type="number" value="1.2" step="0.1"></label>
-              <label><span>Rotor inertia g·cm²</span><input id="cInertia" type="number" value="80" step="1"></label>
-              <label><span>Step angle °</span><input id="cStep" type="number" value="1.8" step="0.1"></label>
-            </div>
-            <button id="addCustom" class="primary full">Add custom motor</button>
-          </div>
-        </aside>
-
-        <div class="content-stack">
-          <div class="metrics">
-            <div class="metric"><span>Torque required</span><strong id="metricTorque">–</strong></div>
-            <div class="metric"><span>Pulley radius</span><strong id="metricRadius">–</strong></div>
-            <div class="metric"><span>Selected motors</span><strong id="metricCount">–</strong></div>
-            <div class="metric"><span>Graph range</span><strong id="metricRange">–</strong></div>
-          </div>
-
-          <section class="card chart-card">
-            <div class="card-title-row">
-              <div><h2>Available torque vs. speed</h2><p>Motor torque after drive limits and rotor-inertia demand.</p></div>
-              <div id="legend" class="legend"></div>
-            </div>
-            <div class="chart-wrap"><svg id="torqueChart" viewBox="0 0 1200 560" preserveAspectRatio="none"></svg><div id="tooltip" class="tooltip"></div></div>
-          </section>
-
-          <details class="card table-card motor-details">
-            <summary>Motor details</summary>
-            <div class="table-scroll"><table><thead><tr><th>Motor</th><th>Rated A</th><th>Holding Ncm</th><th>L mH</th><th>R Ω</th><th>Rotor g·cm²</th><th>Drive A</th><th>Rotor loss Ncm</th><th>Last point ≥ required</th></tr></thead><tbody id="motorResults"></tbody></table></div>
-          </details>
-        </div>
+    <main class="stage">
+      <div class="hero">
+        <div class="eyebrow">DEVELOPMENT PREVIEW</div>
+        <h1>MOTION LAB<span>3D PRINTING CALCULATOR SUITE</span></h1>
+        <p class="copy">Something is cooking. A collection of tools for motion, speed, torque and extrusion is currently being tuned, tested and expanded.</p>
+        <div class="status"><span class="dot"></span>CALIBRATION IN PROGRESS</div>
+        <div class="modules" aria-hidden="true"><span>TORQUE</span><span>TRAVEL</span><span>ACCEL / SPEED</span><span>FLOW</span><span>MOTOR DATA</span><span>MORE LOADING</span></div>
       </div>
-    </section>
+    </main>
 
-    <section id="tab-travel" class="tab-panel">
-      <div class="tool-grid travel-layout">
-        <section class="card tool-card">
-          <div class="card-title-row"><div><h2>Travel Time Calculator</h2><p>Rest-to-rest move: accelerate → cruise if possible → decelerate.</p></div></div>
-          <div class="travel-top">
-            <label><span>Travel distance</span><div class="input-unit"><input id="travelDistance" type="number" value="75" step="1"><b>mm</b></div></label>
-            <div class="preset-row"><button data-distance="10">10</button><button data-distance="25">25</button><button data-distance="50">50</button><button data-distance="75" class="active">75</button><button data-distance="100">100</button><button data-distance="150">150</button></div>
-          </div>
-          <div id="travelProfiles" class="travel-profiles"></div>
-          <button id="addTravelProfile" class="ghost">+ Profile</button>
-        </section>
-
-        <section class="card tool-card travel-results-card">
-          <div class="card-title-row"><div><h2>Results</h2><p>Fastest profile is the baseline.</p></div></div>
-          <div class="table-scroll"><table class="travel-results"><thead><tr><th>Profile</th><th>Time</th><th class="travel-hide">Type</th><th>Peak</th><th class="travel-hide">Vmax distance</th><th>Δ</th></tr></thead><tbody id="travelResults"></tbody></table></div>
-          <div class="travel-explain" id="travelExplain"></div>
-        </section>
-      </div>
-    </section>
-
-    <section id="tab-matrix" class="tab-panel">
-      <div class="tool-grid matrix-layout">
-        <aside class="card tool-card matrix-controls">
-          <div class="card-title-row"><div><h2>Accel / Speed Matrix</h2><p>Theoretical torque margin across a speed/acceleration grid.</p></div></div>
-          <label><span>Matrix motor</span><select id="matrixMotor"></select></label>
-          <div class="field-grid matrix-inputs">
-            <label><span>Speed min</span><input id="matrixSpeedMin" type="number" value="500" step="100"></label>
-            <label><span>Speed max</span><input id="matrixSpeedMax" type="number" value="1500" step="100"></label>
-            <label><span>Speed step</span><input id="matrixSpeedStep" type="number" value="100" step="20"></label>
-            <label><span>Accel min</span><input id="matrixAccelMin" type="number" value="30000" step="5000"></label>
-            <label><span>Accel max</span><input id="matrixAccelMax" type="number" value="150000" step="5000"></label>
-            <label><span>Accel step</span><input id="matrixAccelStep" type="number" value="10000" step="5000"></label>
-          </div>
-          <div class="matrix-legend"><span class="heat strong">+50%</span><span class="heat good">+20%</span><span class="heat tight">0…20%</span><span class="heat fail">FAIL</span></div>
-          <p class="hint">Margin = available torque / required torque − 1. This is a simulation, not a guaranteed skip predictor.</p>
-        </aside>
-
-        <section class="card tool-card matrix-card">
-          <div id="matrixSummary" class="matrix-summary"></div>
-          <div id="matrixTable" class="matrix-scroll"></div>
-        </section>
-      </div>
-    </section>
-
-    <section id="tab-flow" class="tab-panel">
-      <div class="flow-stack">
-        <div class="metrics flow-metrics">
-          <div class="metric"><span>Required flow</span><strong id="flowRequired">–</strong></div>
-          <div class="metric"><span>Max speed @ flow limit</span><strong id="flowMaxSpeed">–</strong></div>
-          <div class="metric"><span>Flow load</span><strong id="flowLoad">–</strong></div>
-          <div class="metric"><span>Filament speed</span><strong id="flowFilamentSpeed">–</strong></div>
-        </div>
-
-        <div class="tool-grid flow-layout">
-          <aside class="card tool-card flow-controls">
-            <div class="card-title-row"><div><h2>Volumetric Flow Calculator</h2><p>Convert print speed to flow rate and your hotend flow limit back to maximum print speed.</p></div></div>
-
-            <div class="field-grid">
-              <label><span>Nozzle diameter</span><div class="input-unit"><input id="flowNozzle" type="number" value="0.4" step="0.05" min="0.1"><b>mm</b></div></label>
-              <label><span>Line width</span><div class="input-unit"><input id="flowLineWidth" type="number" value="0.4" step="0.01" min="0.05"><b>mm</b></div></label>
-              <label><span>Layer height</span><div class="input-unit"><input id="flowLayerHeight" type="number" value="0.20" step="0.01" min="0.01"><b>mm</b></div></label>
-              <label><span>Print speed</span><div class="input-unit"><input id="flowSpeed" type="number" value="300" step="10" min="1"><b>mm/s</b></div></label>
-              <label><span>Hotend max flow</span><div class="input-unit"><input id="flowMax" type="number" value="42.5" step="0.5" min="0.1"><b>mm³/s</b></div></label>
-              <label><span>Filament diameter</span><div class="input-unit"><input id="flowFilament" type="number" value="1.75" step="0.01" min="0.5"><b>mm</b></div></label>
-            </div>
-
-            <div class="flow-presets">
-              <span>Nozzle presets</span>
-              <div class="flow-preset-row">
-                <button data-flow-nozzle="0.2">0.2</button><button data-flow-nozzle="0.4">0.4</button><button data-flow-nozzle="0.5">0.5</button><button data-flow-nozzle="0.6">0.6</button><button data-flow-nozzle="0.8">0.8</button><button data-flow-nozzle="1.0">1.0</button>
-              </div>
-            </div>
-
-            <div class="flow-presets">
-              <span>Quick flow limits</span>
-              <div class="flow-preset-row">
-                <button data-flow-max="20">20</button><button data-flow-max="30">30</button><button data-flow-max="40">40</button><button data-flow-max="42.5">42.5</button><button data-flow-max="50">50</button><button data-flow-max="60">60</button>
-              </div>
-            </div>
-
-            <div class="flow-actions">
-              <button id="flowAutoWidth" class="ghost">Auto line width</button>
-              <button id="flowUseMax" class="primary">Set speed to max flow</button>
-              <button id="flowReset" class="ghost full-row">Reset flow calculator</button>
-            </div>
-          </aside>
-
-          <section class="card tool-card flow-table-card">
-            <div class="card-title-row"><div><h2>Flow headroom</h2><p>Current combination plus a layer-height speed reference at the entered hotend limit.</p></div></div>
-            <div id="flowStatus" class="flow-status"></div>
-            <div id="flowDetail" class="flow-detail"></div>
-            <p id="flowWarnings" class="flow-warning"></p>
-            <div class="table-scroll">
-              <table>
-                <thead><tr><th>Layer height</th><th>Flow @ current speed</th><th>Max speed @ flow limit</th><th>Flow load</th></tr></thead>
-                <tbody id="flowTableBody"></tbody>
-              </table>
-            </div>
-            <p class="hint">The calculator uses geometric extrusion volume. Real hotend limits still depend on material, temperature, nozzle geometry, heater power and acceptable extrusion quality.</p>
-          </section>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer><b>AK3D Motion Lab</b> · 3D Printing Calculator Suite · Real-world results may vary with hardware, tuning, material, temperature and mechanics.</footer>
+    <footer>AK3D Motion Lab is currently in active development. Calculations, datasets and interface details may change before public release<a class="secret" href="app.html" aria-label="Development access">.</a></footer>
+  </div>
 </body>
 </html>
