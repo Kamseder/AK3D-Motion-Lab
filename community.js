@@ -1,7 +1,6 @@
 (() => {
   const REPO_NEW_ISSUE = 'https://github.com/Kamseder/AK3D-Motion-Lab/issues/new';
   const $ = id => document.getElementById(id);
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   function allMotors() {
     let custom = [];
@@ -81,12 +80,16 @@
     const nemaLabel = document.createElement('label');
     nemaLabel.innerHTML = '<span>NEMA size</span><select id="cNema"><option value="17" selected>NEMA 17</option><option value="14">NEMA 14</option><option value="23">NEMA 23</option><option value="other">Other</option></select>';
 
+    const bodyLabel = document.createElement('label');
+    bodyLabel.innerHTML = '<span>Body length</span><div class="input-unit"><input id="cBodyLength" type="number" step="0.1" min="0" placeholder="48"><b>mm</b></div>';
+
     const sourceLabel = document.createElement('label');
     sourceLabel.className = 'wide';
-    sourceLabel.innerHTML = '<span>Datasheet / source URL</span><input id="cSource" type="url" placeholder="https://... datasheet, product page or PDF">';
+    sourceLabel.innerHTML = '<span>Datasheet / source URL</span><input id="cSource" type="url" placeholder="https://... or leave empty and attach a PDF in GitHub">';
 
     grid.appendChild(brandLabel);
     grid.appendChild(nemaLabel);
+    grid.appendChild(bodyLabel);
     grid.appendChild(sourceLabel);
 
     const submit = document.createElement('button');
@@ -107,7 +110,9 @@
 
   function value(id) { return $(id)?.value?.trim?.() ?? ''; }
   function numberValue(id) {
-    const v = Number($(id)?.value);
+    const raw = $(id)?.value;
+    if (raw === '' || raw == null) return '';
+    const v = Number(raw);
     return Number.isFinite(v) ? v : '';
   }
 
@@ -117,7 +122,6 @@
     const source = value('cSource');
     const nemaRaw = value('cNema');
     if (!model) return alert('Please enter the motor model/name first.');
-    if (!source) return alert('Please add a datasheet, product page or PDF source URL so the motor can be verified.');
 
     const nema = nemaRaw === 'other' ? 'Other / please specify' : nemaRaw;
     const title = `[Motor submission] ${brand ? brand + ' ' : ''}${model}`;
@@ -127,6 +131,7 @@
       `**Brand:** ${brand || 'Unknown / not entered'}`,
       `**Model:** ${model}`,
       `**NEMA size:** ${nema}`,
+      `**Body length:** ${numberValue('cBodyLength') || 'Not entered'}${numberValue('cBodyLength') ? ' mm' : ''}`,
       `**Rated current:** ${numberValue('cCurrent')} A`,
       `**Holding torque:** ${numberValue('cTorque')} N·cm`,
       `**Inductance:** ${numberValue('cInduct')} mH`,
@@ -135,9 +140,9 @@
       `**Step angle:** ${numberValue('cStep')}°`,
       '',
       '## Verification source',
-      source,
+      source || '_No URL entered — please attach the datasheet/PDF/image to this issue._',
       '',
-      '> If the source is a local PDF or image, please attach it to this issue after GitHub opens.',
+      '> A source is required before the motor should be accepted into the public database.',
       '',
       '## Review checklist',
       '- [ ] Model / manufacturer verified',
@@ -149,7 +154,7 @@
       '_Submitted from AK3D Motion Lab. Submission does not automatically modify the motor database._'
     ].join('\n');
 
-    const url = `${REPO_NEW_ISSUE}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
+    const url = `${REPO_NEW_ISSUE}?template=motor-submission.md&title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
