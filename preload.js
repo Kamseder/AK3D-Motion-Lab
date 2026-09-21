@@ -1,4 +1,14 @@
 (() => {
+  // Load the monochrome AK3D theme after the base stylesheet.
+  const theme = document.createElement("link");
+  theme.rel = "stylesheet";
+  theme.href = "theme.css";
+  document.head.appendChild(theme);
+
+  // Translate the one dynamic alert emitted by app.js.
+  const nativeAlert = window.alert.bind(window);
+  window.alert = message => nativeAlert(message === "Name fehlt." ? "Name required." : message);
+
   // Additional motors that are not part of the original spreadsheet database.
   window.AK3D_MOTORS = window.AK3D_MOTORS || [];
   const extras = [
@@ -56,10 +66,10 @@
       const X = p.l + frac * iw;
       group.appendChild(svgEl("line", {
         x1: X, x2: X, y1: p.t, y2: H - p.b,
-        stroke: "#1d2a39", "stroke-width": 1, opacity: 0.95
+        stroke: "#191919", "stroke-width": 1, opacity: 1
       }));
       group.appendChild(svgEl("text", {
-        x: X, y: H - 33, "text-anchor": "middle", "font-size": 10, fill: "#68798d"
+        x: X, y: H - 33, "text-anchor": "middle", "font-size": 10, fill: "#6f6f6f"
       }, String(Math.round(xVal))));
     }
 
@@ -69,10 +79,10 @@
       const Y = p.t + (1 - frac) * ih;
       group.appendChild(svgEl("line", {
         x1: p.l, x2: W - p.r, y1: Y, y2: Y,
-        stroke: "#1d2a39", "stroke-width": 1, opacity: 0.95
+        stroke: "#191919", "stroke-width": 1, opacity: 1
       }));
       group.appendChild(svgEl("text", {
-        x: p.l - 10, y: Y + 3.5, "text-anchor": "end", "font-size": 10, fill: "#68798d"
+        x: p.l - 10, y: Y + 3.5, "text-anchor": "end", "font-size": 10, fill: "#6f6f6f"
       }, yVal.toFixed(yMax <= 20 ? 1 : 0)));
     }
 
@@ -89,13 +99,50 @@
     observer.observe(svg, { childList: true });
   }
 
-  function tweakLabels() {
+  function translateDynamicMotorSlots() {
+    const root = document.getElementById("motorSlots");
+    if (!root) return;
+
+    const apply = () => {
+      root.querySelectorAll("option").forEach(option => {
+        if (option.textContent.trim() === "— Motor wählen —") option.textContent = "— Select motor —";
+      });
+    };
+
+    apply();
+    new MutationObserver(apply).observe(root, { childList: true, subtree: true });
+  }
+
+  function setText(selector, text) {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = text;
+  }
+
+  function tweakEnglishUI() {
+    // Header / branding
+    const heroMain = document.querySelector(".hero > div:first-child");
+    const heroTitle = document.querySelector(".hero h1");
+    if (heroMain && !document.querySelector(".ak-logo")) {
+      const logo = document.createElement("img");
+      logo.className = "ak-logo";
+      logo.src = "logo.svg";
+      logo.alt = "AK3D Printing";
+      heroMain.insertBefore(logo, heroTitle || heroMain.firstChild);
+    }
+    if (heroTitle) heroTitle.textContent = "Stepper Torque Simulator";
+    setText(".hero p", "Torque curves · Travel time · Acceleration / speed matrix");
+
+    const badges = document.querySelectorAll(".hero-badges span");
+    const badgeText = ["Torque curves", "Travel time", "Accel / speed matrix"];
+    badges.forEach((badge, i) => { if (badgeText[i]) badge.textContent = badgeText[i]; });
+
+    // Torque page
     const drive = document.getElementById("drivePercent");
     const driveLabel = drive?.closest("label");
     const driveTitle = driveLabel?.querySelector("span");
     if (driveTitle) {
       driveTitle.textContent = "Max drive (% rated)";
-      driveLabel.title = "Current cap as a percentage of each motor's rated current. 100% = no extra percentage cap; the Drive current and Max motor power limits can still cap it lower.";
+      driveLabel.title = "Current cap as a percentage of each motor's rated current. 100% means no extra percentage cap; Drive current and Max motor power can still limit it further.";
     }
 
     const pulley = document.getElementById("pulley");
@@ -105,12 +152,29 @@
     const pulleyUnit = pulleyLabel?.querySelector(".input-unit b");
     if (pulleyUnit) pulleyUnit.textContent = "teeth";
 
-    const chartText = document.querySelector("#tab-torque .chart-card .card-title-row p");
-    if (chartText) chartText.textContent = "Motor torque after drive limits and rotor-inertia demand. The denser grid gives quick speed/torque estimates; hover stays available for exact values.";
+    setText("#tab-torque .chart-card .card-title-row p", "Motor torque after drive limits and rotor-inertia demand. The denser grid gives quick speed/torque estimates; hover remains available for exact values.");
+
+    const motorHint = document.querySelector("#motorSlots + .hint");
+    if (motorHint) motorHint.textContent = "Up to 8 motors at once. Your selection is stored locally in the browser.";
+
+    const customName = document.getElementById("cName");
+    if (customName) customName.placeholder = "e.g. AK Test 2504";
+
+    // Travel page
+    setText("#tab-travel .card-title-row p", "Rest-to-rest move: accelerate → cruise if possible → decelerate.");
+
+    // Matrix page
+    const matrixHint = document.querySelector("#tab-matrix .matrix-controls .hint");
+    if (matrixHint) matrixHint.textContent = "Margin = available torque / required torque − 1. This is a simulation, not a guaranteed skip predictor.";
+
+    // Footer
+    const footer = document.querySelector("footer");
+    if (footer) footer.innerHTML = "<b>AK3D Stepper Torque Simulator</b> · Real-world results may vary with driver/chopper settings, supply voltage, motor temperature, belts, mechanics and resonances.";
   }
 
   function init() {
-    tweakLabels();
+    tweakEnglishUI();
+    translateDynamicMotorSlots();
     enhanceChart();
   }
 
