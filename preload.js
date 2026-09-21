@@ -89,7 +89,7 @@
     const plotFloorY = 510; // 560 px viewBox height - 50 px bottom plot margin
 
     // A motor cannot provide useful negative torque in this view. Clamp every
-    // rendered curve to the 0 Ncm baseline on every initial render and redraw.
+    // rendered curve to the 0 N·cm baseline on every initial render and redraw.
     svg.querySelectorAll("polyline.curve").forEach(curve => {
       const points = String(curve.getAttribute("points") || "").trim();
       if (!points) return;
@@ -113,8 +113,9 @@
     clampTorqueCurves();
 
     [...svg.querySelectorAll("text")].forEach(text => {
+      if (text.textContent.includes("Ncm")) text.textContent = text.textContent.replaceAll("Ncm", "N·cm");
       const value = text.textContent.trim();
-      if (value === "Available torque [Ncm]") {
+      if (value === "Available torque [N·cm]") {
         text.classList.add("ak-axis-title");
         text.setAttribute("x", "29");
         text.setAttribute("y", "280");
@@ -303,7 +304,7 @@
     refreshEnhancements();
 
     // app.js completely redraws the SVG by replacing its children. Watch only that
-    // exact operation, then immediately re-apply the 0 Ncm clamp and chart extras.
+    // exact operation, then immediately re-apply the 0 N·cm clamp and chart extras.
     // Attribute writes made by enhanceChart are intentionally not observed.
     const torqueSvg = document.getElementById("torqueChart");
     if (torqueSvg) {
