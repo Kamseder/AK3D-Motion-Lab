@@ -48,29 +48,45 @@
     const svg = document.getElementById("torqueChart");
     if (!svg) return;
 
+    const p = { l: 70, r: 25, t: 24, b: 50 };
+    const W = 1200, H = 560;
+    const plotFloorY = H - p.b;
+
+    // A motor cannot provide useful negative torque in this view. Visually clamp
+    // every curve to the 0 Ncm baseline so it never runs through the speed labels.
+    svg.querySelectorAll("polyline.curve").forEach(curve => {
+      const points = String(curve.getAttribute("points") || "").trim();
+      if (!points) return;
+      const clamped = points.split(/\s+/).map(pair => {
+        const [xRaw, yRaw] = pair.split(",");
+        const x = Number(xRaw), y = Number(yRaw);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) return pair;
+        return `${x.toFixed(1)},${Math.min(y, plotFloorY).toFixed(1)}`;
+      }).join(" ");
+      curve.setAttribute("points", clamped);
+    });
+
     // Axis titles: make both readable without changing the data/curves.
     [...svg.querySelectorAll("text")].forEach(text => {
       const value = text.textContent.trim();
       if (value === "Available torque [Ncm]") {
         text.classList.add("ak-axis-title");
-        text.setAttribute("x", "25");
+        text.setAttribute("x", "29");
         text.setAttribute("y", "280");
-        text.setAttribute("font-size", "18");
-        text.setAttribute("font-weight", "750");
-        text.setAttribute("transform", "rotate(-90 25 280)");
+        text.setAttribute("font-size", "21");
+        text.setAttribute("font-weight", "760");
+        text.setAttribute("transform", "rotate(-90 29 280)");
       } else if (value === "Speed [mm/s]") {
         text.classList.add("ak-axis-title");
         text.setAttribute("y", "550");
-        text.setAttribute("font-size", "18");
-        text.setAttribute("font-weight", "750");
+        text.setAttribute("font-size", "21");
+        text.setAttribute("font-weight", "760");
       }
     });
 
     // Denser grid, added once per render. app.js replaces the SVG contents on a
     // recalculation, so the next user input simply calls this function again.
     if (svg.querySelector('[data-ak3d-minor-grid="1"]')) return;
-    const p = { l: 70, r: 25, t: 24, b: 50 };
-    const W = 1200, H = 560;
     const iw = W - p.l - p.r;
     const ih = H - p.t - p.b;
     const maxSpeed = Math.max(100, Number(document.getElementById("maxSpeed")?.value) || 3000);
@@ -132,6 +148,30 @@
     });
   }
 
+  function enhanceMatrixMotorBrand() {
+    const select = document.getElementById("matrixMotor");
+    if (!select) return;
+
+    select.querySelectorAll("option").forEach(option => {
+      if (!option.value) return;
+      const m = motorByKey(option.value);
+      if (m) option.textContent = motorLabel(m);
+    });
+
+    const m = motorByKey(select.value);
+    let brand = document.getElementById("matrixBrand");
+    if (!brand) {
+      brand = document.createElement("div");
+      brand.id = "matrixBrand";
+      brand.className = "matrix-brand";
+      select.closest("label")?.insertAdjacentElement("afterend", brand);
+    }
+    if (brand) brand.innerHTML = m ? `Brand: <b>${m.brand || "Other"}</b>` : "";
+
+    const summaryName = document.querySelector("#matrixSummary .summary-chip b");
+    if (summaryName && m) summaryName.textContent = motorLabel(m);
+  }
+
   function forceMotorDetailsOpen() {
     const details = document.querySelector(".motor-details");
     if (details) details.open = true;
@@ -171,6 +211,7 @@
       forceMotorDetailsOpen();
       compactTravelLabels();
       enhanceMotorLabels();
+      enhanceMatrixMotorBrand();
       enhanceChart();
     });
   }
