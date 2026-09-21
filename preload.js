@@ -1,6 +1,7 @@
 (() => {
-  // Load visual overrides after the base stylesheet. No observers here: this file
-  // deliberately uses event-driven refreshes only, to avoid runaway DOM mutation loops.
+  // Load visual overrides after the base stylesheet. No broad DOM observers here:
+  // chart redraw handling is scoped only to the torque SVG so it cannot loop through
+  // unrelated UI mutations.
   const theme = document.createElement("link");
   theme.rel = "stylesheet";
   theme.href = "theme.css";
@@ -82,16 +83,13 @@
     return el;
   }
 
-  function enhanceChart() {
+  function clampTorqueCurves() {
     const svg = document.getElementById("torqueChart");
     if (!svg) return;
+    const plotFloorY = 510; // 560 px viewBox height - 50 px bottom plot margin
 
-    const p = { l: 70, r: 25, t: 24, b: 50 };
-    const W = 1200, H = 560;
-    const plotFloorY = H - p.b;
-
-    // A motor cannot provide useful negative torque in this view. Visually clamp
-    // every curve to the 0 Ncm baseline so it never runs through the speed labels.
+    // A motor cannot provide useful negative torque in this view. Clamp every
+    // rendered curve to the 0 Ncm baseline on every initial render and redraw.
     svg.querySelectorAll("polyline.curve").forEach(curve => {
       const points = String(curve.getAttribute("points") || "").trim();
       if (!points) return;
@@ -103,6 +101,16 @@
       }).join(" ");
       curve.setAttribute("points", clamped);
     });
+  }
+
+  function enhanceChart() {
+    const svg = document.getElementById("torqueChart");
+    if (!svg) return;
+
+    const p = { l: 70, r: 25, t: 24, b: 50 };
+    const W = 1200, H = 560;
+
+    clampTorqueCurves();
 
     [...svg.querySelectorAll("text")].forEach(text => {
       const value = text.textContent.trim();
@@ -136,7 +144,9 @@
       const frac = i / 12;
       const X = p.l + frac * iw;
       group.appendChild(svgEl("line", {x1:X,x2:X,y1:p.t,y2:H-p.b,stroke:"#191919","stroke-width":1}));
-      group.appendChild(svgEl("text", {x:X,y:H-33,"text-anchor":"middle","font-size":10,fill:"#6f6f6f"}, String(Math.round(maxSpeed*frac))));
+      // Minor speed labels belong on the exact same baseline as the major labels.
+      // The old H-33 value caused the alternating 0/250/500/750 staircase.
+      group.appendChild(svgEl("text", {x:X,y:H-19,"text-anchor":"middle","font-size":12,fill:"#6f6f6f"}, String(Math.round(maxSpeed*frac))));
     }
     for (let i = 1; i < 12; i += 2) {
       const frac = i / 12;
@@ -274,7 +284,7 @@
     if (matrixHint) matrixHint.textContent = "Margin = available torque / required torque − 1. This is a simulation, not a guaranteed skip predictor.";
 
     const footer = document.querySelector("footer");
-    if (footer) footer.innerHTML = "<b>AK3D Stepper Torque Simulator</b> · Real-world results may vary with driver/chopper settings, supply voltage, motor temperature, belts, mechanics and resonances.";
+    if (footer) footer.innerHTML = "<b>AK3D Motion Lab</b> · 3D Printing Calculator Suite · Calculated values are estimates; real-world results depend on hardware, settings, tuning, material, temperature and mechanics.";
   }
 
   function refreshEnhancements() {
@@ -292,7 +302,18 @@
     tweakStaticUI();
     refreshEnhancements();
 
-    // User-event driven updates only. No MutationObserver = no self-triggering loop.
+    // app.js completely redraws the SVG by replacing its children. Watch only that
+    // exact operation, then immediately re-apply the 0 Ncm clamp and chart extras.
+    // Attribute writes made by enhanceChart are intentionally not observed.
+    const torqueSvg = document.getElementById("torqueChart");
+    if (torqueSvg) {
+      let redrawFrame = 0;
+      new MutationObserver(() => {
+        cancelAnimationFrame(redrawFrame);
+        redrawFrame = requestAnimationFrame(enhanceChart);
+      }).observe(torqueSvg, {childList:true});
+    }
+
     document.addEventListener("input", refreshEnhancements, {passive:true});
     document.addEventListener("change", refreshEnhancements, {passive:true});
     document.addEventListener("click", refreshEnhancements, {passive:true});
