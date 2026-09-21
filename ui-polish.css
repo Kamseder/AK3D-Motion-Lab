@@ -1,10 +1,19 @@
-/* AK3D Motion Lab readability pass */
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+/* AK3D Motion Lab readability + display typography */
+:root{--ak3d-display:'Play',Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{font-size:14px;line-height:1.45}
-.brandtext span{font-size:10px}
-.brandtext h1{font-size:22px}
-.tab{font-size:13px}
-.section-head h2,.card-title-row h2{font-size:16px}
+
+/* Voron-inspired display typography: Play for identity/navigation/headings, neutral UI font for data. */
+.brandtext{min-width:245px;font-family:var(--ak3d-display)}
+.brandtext span{font-size:0;line-height:1;margin-bottom:2px}
+.brandtext span::before{content:"AK3D PRINTING";display:block;color:#8d8d8d;font-size:10px;font-weight:700;letter-spacing:.18em}
+.brandtext h1{font-family:var(--ak3d-display);font-size:24px;font-weight:700;line-height:.98;letter-spacing:.055em;text-transform:uppercase}
+.brandtext h1::after{content:"3D PRINTING CALCULATOR SUITE";display:block;margin-top:4px;color:#6f6f6f;font-size:9px;font-weight:400;line-height:1;letter-spacing:.12em}
+.tab{font-family:var(--ak3d-display);font-size:13px;font-weight:700;letter-spacing:.035em;text-transform:uppercase}
+.section-head h2,.card-title-row h2{font-family:var(--ak3d-display);font-size:16px;font-weight:700;letter-spacing:.035em;text-transform:uppercase}
 .card-title-row p{font-size:12px;line-height:1.4}
+.motor-details summary{font-family:var(--ak3d-display);font-size:11px;font-weight:700;letter-spacing:.07em}
 label>span{font-size:12px;line-height:1.25;margin-bottom:5px}
 input,select{font-size:13px;line-height:1.3}
 .input-unit b{font-size:11px}
@@ -16,18 +25,20 @@ input,select{font-size:13px;line-height:1.3}
 th{font-size:10px}
 td{font-size:12px}
 .badge{font-size:11px}
-.motor-details summary{font-size:11px}
 .heat{font-size:10px}
 .summary-chip{font-size:10px}
-footer{font-size:10px}
+
+/* Universal Motion Lab footer. Hides any legacy tool-specific wording still cached in markup. */
+footer{font-size:0}
+footer::before{content:"AK3D MOTION LAB · 3D PRINTING CALCULATOR SUITE · Calculated values are estimates; real-world results depend on hardware, settings, tuning, material, temperature and mechanics.";font:10px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#666}
 
 /* Keep all metric values aligned and equally prominent. */
 .metrics{align-items:stretch}
 .metric{display:grid;grid-template-rows:minmax(24px,auto) 1fr;align-items:end;min-height:70px}
 .metric span{font-size:10px;line-height:1.2;align-self:start}
-.metric strong{font-size:18px;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+.metric strong{display:block;font-size:18px;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 
-/* Torque chart: one true baseline for every x-axis tick label. */
+/* Torque chart: chart data remains in the neutral UI font. */
 .chart-wrap svg text{font-size:13px!important;font-variant-numeric:tabular-nums}
 #torqueChart text[y="541"]{dominant-baseline:middle;alignment-baseline:middle;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
 
@@ -50,7 +61,7 @@ footer{font-size:10px}
 
 /* Flow page readability + five equally sized result cards. */
 .flow-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
-.flow-presets>span{font-size:11px!important}
+.flow-presets>span{font-family:var(--ak3d-display);font-size:11px!important;font-weight:700;letter-spacing:.04em}
 .flow-preset-row button{font-size:11px!important}
 .flow-status b{font-size:16px!important}
 .flow-status span{font-size:12px!important;line-height:1.4}
@@ -63,8 +74,10 @@ footer{font-size:10px}
 }
 @media(max-width:650px){
   body{font-size:13px}
-  .brandtext h1{font-size:18px}
-  .tab{font-size:12px}
+  .brandtext{min-width:0}
+  .brandtext h1{font-size:19px}
+  .brandtext h1::after{font-size:8px;letter-spacing:.08em}
+  .tab{font-size:11px;letter-spacing:.02em}
   .flow-metrics{grid-template-columns:1fr 1fr}
   .metric strong{font-size:17px}
   .matrix-table th,.matrix-table td{height:48px;min-height:48px}
