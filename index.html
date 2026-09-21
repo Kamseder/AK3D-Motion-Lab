@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,22 +12,20 @@
   <script defer src="app.js"></script>
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <div class="eyebrow">AK3D PRINTING · MOTION LAB</div>
+  <header class="topbar">
+    <a class="brandmark" href="https://github.com/Kamseder" target="_blank" rel="noopener" aria-label="AK3D Printing on GitHub">
+      <img src="https://avatars.githubusercontent.com/u/147354500?v=4" alt="AK3D Printing logo">
+    </a>
+    <div class="brandtext">
+      <span>AK3D PRINTING</span>
       <h1>Stepper Torque Simulator</h1>
-      <p>Torque-Kurven, Travel-Zeit und Accel/Speed-Matrix in einer Seite. Keine Makros. Keine Excel-Orgie. 😂</p>
     </div>
-    <div class="hero-badges">
-      <span>48 V ready</span><span>up to 3000+ mm/s</span><span>browser only</span>
-    </div>
+    <nav class="tabs" aria-label="Simulator sections">
+      <button class="tab active" data-tab="torque">Torque Curve</button>
+      <button class="tab" data-tab="travel">Travel Time</button>
+      <button class="tab" data-tab="matrix">Accel / Speed Matrix</button>
+    </nav>
   </header>
-
-  <nav class="tabs" aria-label="Simulator sections">
-    <button class="tab active" data-tab="torque">Torque Curve</button>
-    <button class="tab" data-tab="travel">Travel Time</button>
-    <button class="tab" data-tab="matrix">Accel / Speed Matrix</button>
-  </nav>
 
   <main class="page">
     <section id="tab-torque" class="tab-panel active">
@@ -48,15 +46,15 @@
           </div>
 
           <div class="divider"></div>
-          <div class="section-head"><h2>Motor dropdowns</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
+          <div class="section-head"><h2>Motors</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
           <div id="motorSlots" class="motor-slots"></div>
-          <p class="hint">Bis zu 8 Motoren gleichzeitig. Die Auswahl wird lokal im Browser gespeichert.</p>
+          <p class="hint">Up to 8 motors. Selections are stored locally in your browser.</p>
 
           <div class="divider"></div>
           <button id="customToggle" class="ghost full">+ Custom Motor</button>
           <div id="customMotor" class="custom-box hidden">
             <div class="field-grid compact">
-              <label class="wide"><span>Name</span><input id="cName" placeholder="z. B. AK Test 2504"></label>
+              <label class="wide"><span>Name</span><input id="cName" placeholder="e.g. AK Test 2504"></label>
               <label><span>Rated current</span><input id="cCurrent" type="number" value="2.5" step="0.1"></label>
               <label><span>Holding torque Ncm</span><input id="cTorque" type="number" value="55" step="1"></label>
               <label><span>Inductance mH</span><input id="cInduct" type="number" value="1.5" step="0.1"></label>
@@ -84,18 +82,18 @@
             <div class="chart-wrap"><svg id="torqueChart" viewBox="0 0 1200 560" preserveAspectRatio="none"></svg><div id="tooltip" class="tooltip"></div></div>
           </section>
 
-          <section class="card table-card">
-            <div class="card-title-row"><div><h2>Motor comparison</h2><p>Current setup, calculated from the database values.</p></div></div>
+          <details class="card table-card motor-details">
+            <summary>Motor details</summary>
             <div class="table-scroll"><table><thead><tr><th>Motor</th><th>Rated A</th><th>Holding Ncm</th><th>L mH</th><th>R Ω</th><th>Rotor g·cm²</th><th>Drive A</th><th>Rotor loss Ncm</th><th>Last point ≥ required</th></tr></thead><tbody id="motorResults"></tbody></table></div>
-          </section>
+          </details>
         </div>
       </div>
     </section>
 
     <section id="tab-travel" class="tab-panel">
-      <div class="tool-grid">
+      <div class="tool-grid travel-layout">
         <section class="card tool-card">
-          <div class="card-title-row"><div><h2>Travel Time Calculator</h2><p>Rest-to-rest move: beschleunigen → ggf. cruisen → abbremsen.</p></div></div>
+          <div class="card-title-row"><div><h2>Travel Time Calculator</h2><p>Rest-to-rest move: accelerate → cruise if possible → decelerate.</p></div></div>
           <div class="travel-top">
             <label><span>Travel distance</span><div class="input-unit"><input id="travelDistance" type="number" value="75" step="1"><b>mm</b></div></label>
             <div class="preset-row"><button data-distance="10">10</button><button data-distance="25">25</button><button data-distance="50">50</button><button data-distance="75" class="active">75</button><button data-distance="100">100</button><button data-distance="150">150</button></div>
@@ -104,9 +102,9 @@
           <button id="addTravelProfile" class="ghost">+ Profile</button>
         </section>
 
-        <section class="card tool-card">
-          <div class="card-title-row"><div><h2>Result</h2><p>Fastest profile is used as the comparison baseline.</p></div></div>
-          <div class="table-scroll"><table><thead><tr><th>Profile</th><th>Time</th><th>Profile type</th><th>Peak speed</th><th>Distance to hit Vmax</th><th>vs. fastest</th></tr></thead><tbody id="travelResults"></tbody></table></div>
+        <section class="card tool-card travel-results-card">
+          <div class="card-title-row"><div><h2>Results</h2><p>Fastest profile is the baseline.</p></div></div>
+          <div class="table-scroll"><table class="travel-results"><thead><tr><th>Profile</th><th>Time</th><th class="travel-hide">Type</th><th>Peak</th><th class="travel-hide">Vmax distance</th><th>Δ</th></tr></thead><tbody id="travelResults"></tbody></table></div>
           <div class="travel-explain" id="travelExplain"></div>
         </section>
       </div>
@@ -115,7 +113,7 @@
     <section id="tab-matrix" class="tab-panel">
       <div class="tool-grid matrix-layout">
         <aside class="card tool-card matrix-controls">
-          <div class="card-title-row"><div><h2>Accel / Speed Matrix</h2><p>Theoretical torque margin for one motor across a speed/accel grid.</p></div></div>
+          <div class="card-title-row"><div><h2>Accel / Speed Matrix</h2><p>Theoretical torque margin across a speed/acceleration grid.</p></div></div>
           <label><span>Matrix motor</span><select id="matrixMotor"></select></label>
           <div class="field-grid matrix-inputs">
             <label><span>Speed min</span><input id="matrixSpeedMin" type="number" value="500" step="100"></label>
@@ -126,7 +124,7 @@
             <label><span>Accel step</span><input id="matrixAccelStep" type="number" value="10000" step="5000"></label>
           </div>
           <div class="matrix-legend"><span class="heat strong">+50%</span><span class="heat good">+20%</span><span class="heat tight">0…20%</span><span class="heat fail">FAIL</span></div>
-          <p class="hint">Margin = available torque / required torque − 1. Das ist eine Simulation, kein Skip-Prädiktor mit Garantie.</p>
+          <p class="hint">Margin = available torque / required torque − 1. This is a simulation, not a guaranteed skip predictor.</p>
         </aside>
 
         <section class="card tool-card matrix-card">
@@ -137,8 +135,6 @@
     </section>
   </main>
 
-  <footer>
-    <b>AK3D Stepper Torque Simulator</b> · Rechenmodell aus der vorhandenen Stepper-Torque-Tabelle. Reale Ergebnisse hängen zusätzlich von Treiber/Chopper, Bus-Spannung, Temperatur, Riemen, Mechanik und Resonanzen ab.
-  </footer>
+  <footer><b>AK3D Stepper Torque Simulator</b> · Real-world results may vary with driver/chopper settings, supply voltage, motor temperature, belts, mechanics and resonances.</footer>
 </body>
 </html>
