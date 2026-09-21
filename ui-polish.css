@@ -1,0 +1,61 @@
+/* AK3D Motion Lab readability pass */
+body{font-size:14px;line-height:1.45}
+.brandtext span{font-size:10px}
+.brandtext h1{font-size:22px}
+.tab{font-size:13px}
+.section-head h2,.card-title-row h2{font-size:16px}
+.card-title-row p{font-size:12px;line-height:1.4}
+label>span{font-size:12px;line-height:1.25;margin-bottom:5px}
+input,select{font-size:13px;line-height:1.3}
+.input-unit b{font-size:11px}
+.small{font-size:11px}
+.motor-slot select{font-size:12px}
+.hint{font-size:11px;line-height:1.45}
+.legend-item{font-size:11px}
+.tooltip{font-size:12px}
+th{font-size:10px}
+td{font-size:12px}
+.badge{font-size:11px}
+.motor-details summary{font-size:11px}
+.travel-explain{font-size:11px;line-height:1.45}
+.heat{font-size:10px}
+.summary-chip{font-size:10px}
+footer{font-size:10px}
+
+/* Keep all metric values aligned and equally prominent. */
+.metrics{align-items:stretch}
+.metric{display:grid;grid-template-rows:minmax(24px,auto) 1fr;align-items:end;min-height:70px}
+.metric span{font-size:10px;line-height:1.2;align-self:start}
+.metric strong{font-size:18px;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
+
+/* Make chart labels more legible and numerically consistent. */
+.chart-wrap svg text{font-size:13px!important;font-variant-numeric:tabular-nums}
+
+/* Normalize every accel/speed matrix cell to the same visual height and number size. */
+.matrix-table th,.matrix-table td{height:52px;min-height:52px;vertical-align:middle;line-height:1.1;font-variant-numeric:tabular-nums}
+.matrix-table th{font-size:11px}
+.matrix-table td{font-size:12px;font-weight:650}
+.matrix-table td small{font-size:10px;line-height:1.1;margin-top:4px;min-height:11px}
+.matrix-table .passmark{font-size:12px;display:inline-block;line-height:1}
+.matrix-table td:first-child{font-size:12px}
+
+/* Flow page readability + five equally sized result cards. */
+.flow-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
+.flow-presets>span{font-size:11px!important}
+.flow-preset-row button{font-size:11px!important}
+.flow-status b{font-size:16px!important}
+.flow-status span{font-size:12px!important;line-height:1.4}
+.flow-detail,.flow-warning{font-size:11px!important;line-height:1.45}
+.flow-table-card th,.flow-table-card td{font-variant-numeric:tabular-nums}
+
+@media(max-width:1050px){
+  .flow-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  body{font-size:13px}
+  .brandtext h1{font-size:18px}
+  .tab{font-size:12px}
+  .flow-metrics{grid-template-columns:1fr 1fr}
+  .metric strong{font-size:17px}
+  .matrix-table th,.matrix-table td{height:48px;min-height:48px}
+}
