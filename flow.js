@@ -1,30 +1,52 @@
 (() => {
   const $ = id => document.getElementById(id);
 
-  // Firefox can render individual SVG number glyphs with slightly different optical
-  // vertical bounds even when their text baselines are identical. Measure the actual
-  // rendered boxes and compensate each x-axis tick so their visible tops line up.
+  // Browsers can rasterize individual SVG number glyphs with slightly different
+  // visible vertical bounds even when every text node has the same SVG baseline.
+  // Measure the actual rendered boxes in browser pixels and move every x-axis tick
+  // until their visible bottom edges are identical.
   function alignTorqueXAxisTicks() {
     const svg = $('torqueChart');
-    if (!svg) return;
-    requestAnimationFrame(() => {
-      const ticks = [...svg.querySelectorAll('text')].filter(t => t.getAttribute('y') === '541');
-      if (ticks.length < 2) return;
-      ticks.forEach(t => t.removeAttribute('transform'));
-      const boxes = ticks.map(t => t.getBBox());
-      const targetTop = Math.max(...boxes.map(b => b.y));
-      ticks.forEach((t, i) => {
-        const dy = targetTop - boxes[i].y;
-        t.setAttribute('transform', `translate(0 ${dy.toFixed(2)})`);
-      });
+    if (!svg?.viewBox?.baseVal) return;
+
+    const ticks = [...svg.querySelectorAll('text')].filter(t => {
+      const y = Number(t.getAttribute('y'));
+      return Math.abs(y - 541) < 0.01 && /^\d+$/.test((t.textContent || '').trim());
+    });
+    if (ticks.length < 2) return;
+
+    // Reset previous compensation before measuring so repeated runs never stack.
+    ticks.forEach(t => t.removeAttribute('transform'));
+
+    const svgRect = svg.getBoundingClientRect();
+    if (!svgRect.height) return;
+    const pxToSvgY = svg.viewBox.baseVal.height / svgRect.height;
+    const boxes = ticks.map(t => t.getBoundingClientRect());
+    const targetBottom = Math.max(...boxes.map(b => b.bottom));
+
+    ticks.forEach((t, i) => {
+      const dy = (targetBottom - boxes[i].bottom) * pxToSvgY;
+      if (Math.abs(dy) > 0.001) t.setAttribute('transform', `translate(0 ${dy.toFixed(3)})`);
+      t.classList.add('x-tick-label');
+    });
+  }
+
+  let axisAlignFrame = 0;
+  function scheduleTorqueAxisAlign() {
+    cancelAnimationFrame(axisAlignFrame);
+    axisAlignFrame = requestAnimationFrame(() => {
+      alignTorqueXAxisTicks();
+      // A second frame catches late font metrics / rasterization changes.
+      requestAnimationFrame(alignTorqueXAxisTicks);
     });
   }
 
   const torqueSvg = $('torqueChart');
   if (torqueSvg) {
-    new MutationObserver(alignTorqueXAxisTicks).observe(torqueSvg, { childList: true });
-    alignTorqueXAxisTicks();
-    window.addEventListener('resize', alignTorqueXAxisTicks);
+    new MutationObserver(scheduleTorqueAxisAlign).observe(torqueSvg, { childList: true, subtree: true });
+    scheduleTorqueAxisAlign();
+    if (document.fonts?.ready) document.fonts.ready.then(scheduleTorqueAxisAlign);
+    window.addEventListener('resize', scheduleTorqueAxisAlign, { passive: true });
   }
 
   // Global readability pass for the whole Motion Lab UI.
