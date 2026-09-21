@@ -1,0 +1,92 @@
+/* AK3D compact layout refinements — loaded after theme.css */
+
+/* Torque page: no nested scrollbar in the setup card. Keep the whole card visible
+   in normal page flow and tighten the controls enough to fit typical desktop heights. */
+#tab-torque .sidebar{
+  position:static!important;
+  max-height:none!important;
+  overflow:visible!important;
+  padding:10px!important;
+}
+#tab-torque .sidebar .field-grid{gap:5px!important;margin-top:7px!important}
+#tab-torque .sidebar label>span{margin-bottom:2px!important;font-size:9px!important}
+#tab-torque .sidebar input,
+#tab-torque .sidebar select{padding:5px 7px!important}
+#tab-torque .sidebar .input-unit b{font-size:8px!important;padding-right:6px!important}
+#tab-torque .sidebar .divider{margin:8px 0!important}
+#tab-torque .sidebar .motor-slots{gap:4px!important;margin-top:5px!important}
+#tab-torque .sidebar .motor-slot select{padding:5px 6px!important}
+#tab-torque .sidebar .motor-color{height:24px!important}
+#tab-torque .sidebar .remove-slot{height:28px!important}
+#tab-torque .sidebar .hint{margin-top:4px!important;font-size:9px!important}
+#tab-torque .sidebar .section-head h2{font-size:13px!important}
+
+/* Motor details are part of the torque page, not a collapsible extra. */
+.motor-details{padding:9px 10px 10px!important;overflow:visible!important}
+.motor-details summary{display:none!important}
+.motor-details .table-scroll{margin:0!important;border-top:0!important}
+.motor-details table{min-width:820px!important}
+
+/* Make the actual axis titles readable. JS tags them with this class. */
+#torqueChart .ak-axis-title{
+  fill:#fff!important;
+  font-size:18px!important;
+  font-weight:750!important;
+  letter-spacing:.01em;
+}
+
+/* Travel page: calculator should be a compact control panel, results get the room. */
+.travel-layout{
+  grid-template-columns:400px minmax(0,1fr)!important;
+  align-items:start;
+}
+#tab-travel .tool-card{padding:10px!important}
+#tab-travel .card-title-row h2{font-size:14px!important}
+#tab-travel .card-title-row p{font-size:9px!important}
+#tab-travel .travel-top{margin-top:7px!important;gap:7px!important}
+#tab-travel .travel-top label{min-width:105px!important;width:105px!important}
+#tab-travel .travel-top input{padding:5px 7px!important}
+#tab-travel .preset-row{gap:3px!important}
+#tab-travel .preset-row button{padding:5px 6px!important;font-size:10px!important}
+#tab-travel .travel-profiles{gap:4px!important;margin:8px 0!important}
+#tab-travel .travel-profile{
+  grid-template-columns:7px 108px 74px 88px 27px!important;
+  gap:5px!important;
+  justify-content:start!important;
+}
+#tab-travel .travel-profile .motor-color{height:27px!important}
+#tab-travel .travel-profile label>span{font-size:9px!important;margin-bottom:2px!important}
+#tab-travel .travel-profile input{padding:5px 6px!important;font-size:11px!important}
+#tab-travel .travel-profile .remove-slot{height:28px!important;padding:0!important}
+#tab-travel #addTravelProfile{padding:5px 8px!important;font-size:10px!important}
+
+/* Restore every result value and stop stretching a few columns across the card. */
+.travel-results-card{min-width:0!important}
+.travel-results-card .table-scroll{overflow:visible!important}
+.travel-results{
+  width:auto!important;
+  min-width:0!important;
+  table-layout:auto!important;
+}
+.travel-results th,.travel-results td{
+  display:table-cell!important;
+  width:auto!important;
+  padding:7px 7px!important;
+  font-size:10px!important;
+}
+.travel-results th:nth-child(1),.travel-results td:nth-child(1){min-width:122px!important;max-width:150px!important}
+.travel-results th:nth-child(2),.travel-results td:nth-child(2){min-width:82px!important}
+.travel-results th:nth-child(3),.travel-results td:nth-child(3){min-width:78px!important}
+.travel-results th:nth-child(4),.travel-results td:nth-child(4){min-width:86px!important}
+.travel-results th:nth-child(5),.travel-results td:nth-child(5){min-width:102px!important}
+.travel-results th:nth-child(6),.travel-results td:nth-child(6){min-width:66px!important}
+#tab-travel .travel-explain{margin-top:7px!important;padding:7px 8px!important;font-size:9px!important}
+
+/* The selected option should carry the brand too; keep it readable in the narrow sidebar. */
+#motorSlots select{font-size:10px!important}
+
+@media(max-width:1050px){
+  .travel-layout{grid-template-columns:1fr!important}
+  .travel-results-card .table-scroll{overflow:auto!important}
+  .travel-results{min-width:620px!important}
+}
