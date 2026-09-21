@@ -1,34 +1,36 @@
-# AK3D Stepper Torque Simulator
+# AK3D Motion Lab
 
-Browser-based motion calculator for comparing stepper motors and travel profiles.
+A browser-based 3D printing calculator suite for motion-system and extrusion tuning.
 
-## Features
+## Tools
 
-- Torque-vs-speed chart using the calculation model from the original spreadsheet
-- Motor selection via dropdowns (up to 8 motors at once)
+- **Stepper Torque Simulator** – torque-vs-speed comparison with up to 8 motors, custom motor entries and the calculation model from the original spreadsheet
+- **Travel Time Calculator** – compare rest-to-rest moves across speed/acceleration profiles
+- **Accel / Speed Matrix** – theoretical torque margin across a configurable motion grid
+- **Volumetric Flow Calculator** – convert print speed to flow rate, calculate maximum speed from a hotend flow limit, show flow headroom and compare layer heights
 - 74 motor entries imported from the current workbook
-- Custom motors stored locally in the browser
-- Inputs for voltage, drive current, max power, pulley, ratio, acceleration and moving mass
-- Travel-time calculator for rest-to-rest moves
-- Acceleration/speed matrix with torque margin per cell
+- Browser-local storage for custom motors, selections, travel profiles and flow settings
 - No Excel, VBA, backend or build tool required
 
 ## GitHub Pages
 
-This repo is a static site. To publish it:
+This repository is a static site. Publish the `main` branch from `/ (root)` in **Settings → Pages**.
 
-1. Open **Settings → Pages**
-2. Under **Build and deployment**, choose **Deploy from a branch**
-3. Select `main` and `/ (root)`
-4. Save
+## Calculation notes
 
-> GitHub Pages availability for private repositories depends on the GitHub plan. If needed, make the repository public before enabling Pages.
-
-## Calculation model
+### Stepper model
 
 The motor model mirrors the current spreadsheet logic: drive-current and power limits, back-EMF / inductive impedance, holding-torque scaling and rotor-inertia torque demand. It is a comparative simulation, not a dyno model.
 
-Real-world limits can differ because of driver/chopper tuning, bus-voltage sag, temperature, belt dynamics, resonance, frame stiffness, bearings and mechanical losses.
+Real-world motion limits can differ because of driver/chopper tuning, bus-voltage sag, temperature, belt dynamics, resonance, frame stiffness, bearings and mechanical losses.
+
+### Flow model
+
+Volumetric flow is calculated geometrically:
+
+`flow [mm³/s] = line width [mm] × layer height [mm] × print speed [mm/s]`
+
+Maximum print speed at a known hotend flow limit is the inverse calculation. Real extrusion limits depend on material, temperature, nozzle geometry, heater power and the quality threshold you consider acceptable.
 
 ## Data note
 
