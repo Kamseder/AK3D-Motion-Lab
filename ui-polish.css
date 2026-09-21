@@ -17,7 +17,6 @@ th{font-size:10px}
 td{font-size:12px}
 .badge{font-size:11px}
 .motor-details summary{font-size:11px}
-.travel-explain{font-size:11px;line-height:1.45}
 .heat{font-size:10px}
 .summary-chip{font-size:10px}
 footer{font-size:10px}
@@ -28,8 +27,18 @@ footer{font-size:10px}
 .metric span{font-size:10px;line-height:1.2;align-self:start}
 .metric strong{font-size:18px;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 
-/* Make chart labels more legible and numerically consistent. */
+/* Torque chart: one true baseline for every x-axis tick label. */
 .chart-wrap svg text{font-size:13px!important;font-variant-numeric:tabular-nums}
+#torqueChart text[y="541"]{dominant-baseline:middle;alignment-baseline:middle;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* Travel page: give the result side more room and make the conclusion obvious. */
+.travel-layout{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)}
+.travel-results-card{padding:15px}
+.travel-results-card .card-title-row h2{font-size:18px}
+.travel-results th,.travel-results td{padding:10px 8px;font-size:12px}
+.travel-results td b{font-size:13px}
+.travel-explain{font-size:15px;line-height:1.5;padding:14px 16px;margin-top:12px;border-radius:10px}
+.travel-explain b{font-size:16px}
 
 /* Normalize every accel/speed matrix cell to the same visual height and number size. */
 .matrix-table th,.matrix-table td{height:52px;min-height:52px;vertical-align:middle;line-height:1.1;font-variant-numeric:tabular-nums}
@@ -49,6 +58,7 @@ footer{font-size:10px}
 .flow-table-card th,.flow-table-card td{font-variant-numeric:tabular-nums}
 
 @media(max-width:1050px){
+  .travel-layout{grid-template-columns:1fr}
   .flow-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:650px){
@@ -58,4 +68,6 @@ footer{font-size:10px}
   .flow-metrics{grid-template-columns:1fr 1fr}
   .metric strong{font-size:17px}
   .matrix-table th,.matrix-table td{height:48px;min-height:48px}
+  .travel-explain{font-size:13px;padding:12px}
+  .travel-explain b{font-size:14px}
 }
