@@ -4,12 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="AK3D Stepper Torque Simulator – compare stepper torque, travel time and acceleration/speed margin.">
-  <title>AK3D Stepper Torque Simulator</title>
+  <meta name="description" content="AK3D Motion Lab – a 3D printing calculator suite for stepper torque, travel time, acceleration/speed margin and volumetric flow.">
+  <title>AK3D Motion Lab · 3D Printing Calculator Suite</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="flow.css">
   <script defer src="motors.js"></script>
   <script defer src="preload.js"></script>
   <script defer src="app.js"></script>
+  <script defer src="flow.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -17,13 +19,14 @@
       <img src="https://avatars.githubusercontent.com/u/147354500?v=4" alt="AK3D Printing logo">
     </a>
     <div class="brandtext">
-      <span>AK3D PRINTING</span>
-      <h1>Stepper Torque Simulator</h1>
+      <span>AK3D PRINTING · CALCULATOR SUITE</span>
+      <h1>Motion Lab</h1>
     </div>
-    <nav class="tabs" aria-label="Simulator sections">
+    <nav class="tabs" aria-label="Motion Lab sections">
       <button class="tab active" data-tab="torque">Torque Curve</button>
       <button class="tab" data-tab="travel">Travel Time</button>
       <button class="tab" data-tab="matrix">Accel / Speed Matrix</button>
+      <button class="tab" data-tab="flow">Flow Calculator</button>
     </nav>
   </header>
 
@@ -133,8 +136,68 @@
         </section>
       </div>
     </section>
+
+    <section id="tab-flow" class="tab-panel">
+      <div class="flow-stack">
+        <div class="metrics flow-metrics">
+          <div class="metric"><span>Required flow</span><strong id="flowRequired">–</strong></div>
+          <div class="metric"><span>Max speed @ flow limit</span><strong id="flowMaxSpeed">–</strong></div>
+          <div class="metric"><span>Flow load</span><strong id="flowLoad">–</strong></div>
+          <div class="metric"><span>Filament speed</span><strong id="flowFilamentSpeed">–</strong></div>
+        </div>
+
+        <div class="tool-grid flow-layout">
+          <aside class="card tool-card flow-controls">
+            <div class="card-title-row"><div><h2>Volumetric Flow Calculator</h2><p>Convert print speed to flow rate and your hotend flow limit back to maximum print speed.</p></div></div>
+
+            <div class="field-grid">
+              <label><span>Nozzle diameter</span><div class="input-unit"><input id="flowNozzle" type="number" value="0.4" step="0.05" min="0.1"><b>mm</b></div></label>
+              <label><span>Line width</span><div class="input-unit"><input id="flowLineWidth" type="number" value="0.45" step="0.01" min="0.05"><b>mm</b></div></label>
+              <label><span>Layer height</span><div class="input-unit"><input id="flowLayerHeight" type="number" value="0.20" step="0.01" min="0.01"><b>mm</b></div></label>
+              <label><span>Print speed</span><div class="input-unit"><input id="flowSpeed" type="number" value="300" step="10" min="1"><b>mm/s</b></div></label>
+              <label><span>Hotend max flow</span><div class="input-unit"><input id="flowMax" type="number" value="42.5" step="0.5" min="0.1"><b>mm³/s</b></div></label>
+              <label><span>Filament diameter</span><div class="input-unit"><input id="flowFilament" type="number" value="1.75" step="0.01" min="0.5"><b>mm</b></div></label>
+            </div>
+
+            <div class="flow-presets">
+              <span>Nozzle presets</span>
+              <div class="flow-preset-row">
+                <button data-flow-nozzle="0.2">0.2</button><button data-flow-nozzle="0.4">0.4</button><button data-flow-nozzle="0.5">0.5</button><button data-flow-nozzle="0.6">0.6</button><button data-flow-nozzle="0.8">0.8</button><button data-flow-nozzle="1.0">1.0</button>
+              </div>
+            </div>
+
+            <div class="flow-presets">
+              <span>Quick flow limits</span>
+              <div class="flow-preset-row">
+                <button data-flow-max="20">20</button><button data-flow-max="30">30</button><button data-flow-max="40">40</button><button data-flow-max="42.5">42.5</button><button data-flow-max="50">50</button><button data-flow-max="60">60</button>
+              </div>
+            </div>
+
+            <div class="flow-actions">
+              <button id="flowAutoWidth" class="ghost">Auto line width</button>
+              <button id="flowUseMax" class="primary">Set speed to max flow</button>
+              <button id="flowReset" class="ghost full-row">Reset flow calculator</button>
+            </div>
+          </aside>
+
+          <section class="card tool-card flow-table-card">
+            <div class="card-title-row"><div><h2>Flow headroom</h2><p>Current combination plus a layer-height speed reference at the entered hotend limit.</p></div></div>
+            <div id="flowStatus" class="flow-status"></div>
+            <div id="flowDetail" class="flow-detail"></div>
+            <p id="flowWarnings" class="flow-warning"></p>
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Layer height</th><th>Flow @ current speed</th><th>Max speed @ flow limit</th><th>Flow load</th></tr></thead>
+                <tbody id="flowTableBody"></tbody>
+              </table>
+            </div>
+            <p class="hint">The calculator uses geometric extrusion volume. Real hotend limits still depend on material, temperature, nozzle geometry, heater power and acceptable extrusion quality.</p>
+          </section>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer><b>AK3D Stepper Torque Simulator</b> · Real-world results may vary with driver/chopper settings, supply voltage, motor temperature, belts, mechanics and resonances.</footer>
+  <footer><b>AK3D Motion Lab</b> · 3D Printing Calculator Suite · Real-world results may vary with hardware, tuning, material, temperature and mechanics.</footer>
 </body>
 </html>
