@@ -41,9 +41,9 @@ footer::before{content:"AK3D MOTION LAB · 3D PRINTING CALCULATOR SUITE · Calcu
 /* Torque chart: chart data remains in the neutral UI font. */
 .chart-wrap svg text{font-size:13px!important;font-variant-numeric:tabular-nums}
 #torqueChart text[y="541"]{dominant-baseline:middle;alignment-baseline:middle;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;transform:translateY(-14px)}
-#torqueChart .ak-axis-title{font-family:var(--ak3d-display)!important;font-size:21px!important;font-weight:700!important;font-stretch:normal;letter-spacing:0!important}
-/* Play reads optically larger/wider when horizontal; size the x title visually to match the vertical title. */
-#torqueChart text.ak-axis-title[y="550"]{font-size:18px!important;font-weight:700!important;letter-spacing:0!important;transform:translateY(5px)}
+/* Both axis titles use exactly the same Play/Voron typography; only their position differs. */
+#torqueChart text.ak-axis-title{font-family:'Play',sans-serif!important;font-size:18px!important;font-weight:700!important;font-style:normal!important;font-stretch:normal!important;font-synthesis:none!important;letter-spacing:0!important}
+#torqueChart text.ak-axis-title[y="550"]{transform:translateY(5px)}
 
 /* Travel page: give the result side more room and make the conclusion obvious. */
 .travel-layout{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)}
