@@ -1,19 +1,44 @@
 (() => {
   const $ = id => document.getElementById(id);
+
+  // Global readability pass for the whole Motion Lab UI.
+  if (!document.querySelector('link[data-ak3d-ui-polish]')) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'ui-polish.css';
+    link.dataset.ak3dUiPolish = '1';
+    document.head.appendChild(link);
+  }
+
   const root = $('tab-flow');
   if (!root) return;
 
+  // Extra direct converter: enter a target volumetric flow and get the matching mm/s.
+  const controlsGrid = root.querySelector('.flow-controls .field-grid');
+  if (controlsGrid && !$('flowTarget')) {
+    controlsGrid.insertAdjacentHTML('beforeend', '<label><span>Target flow</span><div class="input-unit"><input id="flowTarget" type="number" value="42.5" step="0.5" min="0.1"><b>mm³/s</b></div></label>');
+  }
+
+  const metricGrid = root.querySelector('.flow-metrics');
+  if (metricGrid && !$('flowTargetSpeed')) {
+    metricGrid.insertAdjacentHTML('beforeend', '<div class="metric"><span>Speed @ target flow</span><strong id="flowTargetSpeed">–</strong></div>');
+  }
+
   const defaults = {
     nozzle: 0.4,
-    lineWidth: 0.45,
+    lineWidth: 0.4,
     layerHeight: 0.20,
     speed: 300,
     maxFlow: 42.5,
-    filament: 1.75
+    filament: 1.75,
+    targetFlow: 42.5
   };
 
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem('ak3d-flow-settings') || '{}') || {}; } catch (_) {}
+
+  // Migrate the old initial 0.45 mm default so existing browsers also get the new 0.40 mm default.
+  if (Number(saved.lineWidth) === 0.45) saved.lineWidth = 0.4;
 
   const ids = {
     nozzle: 'flowNozzle',
@@ -21,7 +46,8 @@
     layerHeight: 'flowLayerHeight',
     speed: 'flowSpeed',
     maxFlow: 'flowMax',
-    filament: 'flowFilament'
+    filament: 'flowFilament',
+    targetFlow: 'flowTarget'
   };
 
   const fmt = (v, d = 1) => Number.isFinite(v) ? v.toFixed(d) : '–';
@@ -41,7 +67,8 @@
       layerHeight: pos(ids.layerHeight, defaults.layerHeight),
       speed: pos(ids.speed, defaults.speed),
       maxFlow: pos(ids.maxFlow, defaults.maxFlow),
-      filament: pos(ids.filament, defaults.filament)
+      filament: pos(ids.filament, defaults.filament),
+      targetFlow: pos(ids.targetFlow, defaults.targetFlow)
     };
   }
 
@@ -61,6 +88,7 @@
     const area = v.lineWidth * v.layerHeight;
     const flow = area * v.speed;
     const maxSpeed = v.maxFlow / area;
+    const targetSpeed = v.targetFlow / area;
     const load = flow / v.maxFlow * 100;
     const headroom = v.maxFlow - flow;
     const filamentArea = Math.PI * Math.pow(v.filament / 2, 2);
@@ -70,6 +98,7 @@
     $('flowMaxSpeed').textContent = `${fmt(maxSpeed, 0)} mm/s`;
     $('flowLoad').textContent = `${fmt(load, 1)} %`;
     $('flowFilamentSpeed').textContent = `${fmt(filamentSpeed, 2)} mm/s`;
+    $('flowTargetSpeed').textContent = `${fmt(targetSpeed, 0)} mm/s`;
 
     const status = $('flowStatus');
     status.className = `flow-status ${loadClass(load)}`;
@@ -79,12 +108,13 @@
       status.innerHTML = `<b>${fmt(Math.abs(headroom), 2)} mm³/s over limit</b><span>Required flow is ${fmt(load - 100, 1)}% above the entered hotend flow limit.</span>`;
     }
 
-    $('flowDetail').innerHTML = `Extrusion cross-section: <b>${fmt(area, 3)} mm²</b> · Formula: <b>line width × layer height × speed</b> · Max speed at ${fmt(v.maxFlow, 2)} mm³/s: <b>${fmt(maxSpeed, 0)} mm/s</b>.`;
+    $('flowDetail').innerHTML = `Extrusion cross-section: <b>${fmt(area, 3)} mm²</b> · Current flow: <b>${fmt(flow, 2)} mm³/s</b> · Target ${fmt(v.targetFlow, 2)} mm³/s = <b>${fmt(targetSpeed, 0)} mm/s</b> · Hotend limit ${fmt(v.maxFlow, 2)} mm³/s = <b>${fmt(maxSpeed, 0)} mm/s</b>.`;
 
     const warnings = [];
     if (v.layerHeight > v.nozzle * 0.8) warnings.push(`Layer height is above 80% of the ${fmt(v.nozzle, 2)} mm nozzle diameter.`);
-    if (v.lineWidth < v.nozzle * 0.8) warnings.push(`Line width is below 80% of nozzle diameter.`);
-    if (v.lineWidth > v.nozzle * 1.8) warnings.push(`Line width is above 180% of nozzle diameter.`);
+    if (v.lineWidth < v.nozzle * 0.8) warnings.push('Line width is below 80% of nozzle diameter.');
+    if (v.lineWidth > v.nozzle * 1.8) warnings.push('Line width is above 180% of nozzle diameter.');
+    if (v.targetFlow > v.maxFlow) warnings.push(`Target flow is ${fmt(v.targetFlow - v.maxFlow, 2)} mm³/s above the entered hotend limit.`);
     $('flowWarnings').textContent = warnings.join(' ');
 
     const baseHeights = [0.10, 0.12, 0.16, 0.20, 0.24, 0.28, 0.32, 0.36, 0.40];
@@ -94,10 +124,14 @@
     $('flowTableBody').innerHTML = baseHeights.map(h => {
       const q = v.lineWidth * h * v.speed;
       const vmax = v.maxFlow / (v.lineWidth * h);
+      const vtarget = v.targetFlow / (v.lineWidth * h);
       const pct = q / v.maxFlow * 100;
       const current = Math.abs(h - v.layerHeight) < 0.0001 ? ' current-row' : '';
-      return `<tr class="${loadClass(pct)}${current}"><td><b>${h.toFixed(2)} mm</b></td><td>${q.toFixed(2)} mm³/s</td><td><b>${Math.round(vmax)} mm/s</b></td><td>${pct.toFixed(1)}%</td></tr>`;
+      return `<tr class="${loadClass(pct)}${current}"><td><b>${h.toFixed(2)} mm</b></td><td>${q.toFixed(2)} mm³/s</td><td><b>${Math.round(vtarget)} mm/s</b></td><td><b>${Math.round(vmax)} mm/s</b></td><td>${pct.toFixed(1)}%</td></tr>`;
     }).join('');
+
+    const tableHead = root.querySelector('.flow-table-card thead tr');
+    if (tableHead) tableHead.innerHTML = '<th>Layer height</th><th>Flow @ current speed</th><th>Speed @ target flow</th><th>Max speed @ flow limit</th><th>Flow load</th>';
 
     document.querySelectorAll('[data-flow-nozzle]').forEach(btn => {
       btn.classList.toggle('active', Math.abs(Number(btn.dataset.flowNozzle) - v.nozzle) < 0.0001);
@@ -114,7 +148,7 @@
   document.querySelectorAll('[data-flow-nozzle]').forEach(btn => btn.addEventListener('click', () => {
     const nozzle = Number(btn.dataset.flowNozzle);
     $('flowNozzle').value = nozzle;
-    $('flowLineWidth').value = (nozzle * 1.125).toFixed(2);
+    $('flowLineWidth').value = nozzle.toFixed(2);
     render();
   }));
 
@@ -125,7 +159,7 @@
 
   $('flowAutoWidth').addEventListener('click', () => {
     const nozzle = pos('flowNozzle', defaults.nozzle);
-    $('flowLineWidth').value = (nozzle * 1.125).toFixed(2);
+    $('flowLineWidth').value = nozzle.toFixed(2);
     render();
   });
 
