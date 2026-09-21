@@ -1,0 +1,163 @@
+:root{
+  --bg:#000;
+  --panel:#050505;
+  --panel2:#0a0a0a;
+  --line:#252525;
+  --text:#fff;
+  --muted:#9a9a9a;
+  --accent:#fff;
+  --accent2:#d9d9d9;
+  --shadow:none;
+}
+
+html,body{background:#000!important;color:#fff}
+body{
+  background:#000!important;
+  color:#fff;
+  letter-spacing:.005em;
+}
+
+.hero{
+  max-width:1540px;
+  padding-top:34px;
+  padding-bottom:26px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:0;
+}
+.hero>div:first-child{display:flex;flex-direction:column;align-items:center}
+.hero .eyebrow{display:none}
+.hero h1{
+  margin-top:18px;
+  color:#fff;
+  font-size:clamp(28px,4vw,48px);
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.hero p{
+  margin-top:8px;
+  color:#a9a9a9;
+  font-size:clamp(13px,1.5vw,16px);
+  letter-spacing:.025em;
+  max-width:none;
+}
+.hero-badges{
+  margin-top:16px;
+  justify-content:center;
+}
+.hero-badges span,.badge{
+  background:#050505;
+  border-color:#2b2b2b;
+  color:#d6d6d6;
+}
+
+.ak-logo{
+  width:118px;
+  height:118px;
+  display:block;
+  color:#fff;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.06));
+}
+.ak-logo path,.ak-logo circle{vector-effect:non-scaling-stroke}
+
+.tabs{justify-content:center;margin-bottom:20px}
+.tab{
+  background:#050505;
+  color:#a8a8a8;
+  border-color:#242424;
+}
+.tab:hover{color:#fff;border-color:#555;background:#0b0b0b}
+.tab.active{
+  background:#fff;
+  color:#000;
+  border-color:#fff;
+}
+
+.card,
+.metric,
+.custom-box,
+.travel-explain,
+.summary-chip{
+  background:#050505!important;
+  border-color:#242424!important;
+  box-shadow:none!important;
+}
+.sidebar,.matrix-controls{background:#030303!important}
+
+input,select,.input-unit{
+  background:#000!important;
+  color:#fff!important;
+  border-color:#303030!important;
+}
+input:focus,select:focus,.input-unit:focus-within{
+  border-color:#fff!important;
+  box-shadow:0 0 0 2px rgba(255,255,255,.08)!important;
+}
+.input-unit b{color:#878787}
+label>span,.hint,.card-title-row p,.metric span,.legend-item,footer{color:#939393}
+.metric strong,.section-head h2,.card-title-row h2{color:#fff}
+
+.ghost,.primary{
+  background:#070707;
+  color:#fff;
+  border-color:#333;
+}
+.ghost:hover{background:#111;border-color:#666}
+.primary{
+  background:#fff;
+  color:#000;
+  border:1px solid #fff;
+}
+
+.divider{background:#202020}
+.remove-slot{background:#050505;border-color:#282828;color:#8c8c8c}
+.remove-slot:hover{border-color:#fff;color:#fff}
+
+.chart-card,.table-card,.tool-card{background:#030303!important}
+.chart-wrap{background:#000;border-radius:12px;overflow:hidden}
+.gridline{stroke:#222!important}
+.axis{stroke:#666!important}
+.tooltip{background:#050505;border-color:#3a3a3a;color:#fff;box-shadow:0 10px 35px rgba(0,0,0,.7)}
+
+th{
+  background:#050505!important;
+  color:#8f8f8f;
+  border-bottom-color:#242424!important;
+}
+td{border-bottom-color:#1e1e1e!important}
+.matrix-table th:first-child,.matrix-table td:first-child{background:#050505!important}
+
+.preset-row button{
+  background:#050505;
+  color:#9c9c9c;
+  border-color:#303030;
+}
+.preset-row button.active{
+  background:#fff;
+  color:#000;
+  border-color:#fff;
+}
+
+/* Keep the functional comparison colors in the matrix. */
+.heat.strong,.cell-strong{background:rgba(67,209,125,.24)!important;color:#93f2b4!important}
+.heat.good,.cell-good{background:rgba(68,165,255,.20)!important;color:#a6d6ff!important}
+.heat.tight,.cell-tight{background:rgba(255,189,84,.20)!important;color:#ffd287!important}
+.heat.fail,.cell-fail{background:rgba(255,102,112,.20)!important;color:#ff9da4!important}
+
+footer{
+  border-top:1px solid #181818;
+  padding-top:22px;
+  text-align:center;
+}
+footer b{color:#fff}
+
+@media(max-width:650px){
+  .hero{padding-top:24px}
+  .ak-logo{width:92px;height:92px}
+  .hero h1{letter-spacing:.07em}
+  .tabs{justify-content:flex-start}
+}
