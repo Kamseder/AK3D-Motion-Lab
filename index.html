@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="AK3D Stepper Torque Simulator – compare stepper torque, travel time and acceleration/speed margin.">
+  <title>AK3D Stepper Torque Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="motors.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <div class="eyebrow">AK3D PRINTING · MOTION LAB</div>
+      <h1>Stepper Torque Simulator</h1>
+      <p>Torque-Kurven, Travel-Zeit und Accel/Speed-Matrix in einer Seite. Keine Makros. Keine Excel-Orgie. 😂</p>
+    </div>
+    <div class="hero-badges">
+      <span>48 V ready</span><span>up to 3000+ mm/s</span><span>browser only</span>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Simulator sections">
+    <button class="tab active" data-tab="torque">Torque Curve</button>
+    <button class="tab" data-tab="travel">Travel Time</button>
+    <button class="tab" data-tab="matrix">Accel / Speed Matrix</button>
+  </nav>
+
+  <main class="page">
+    <section id="tab-torque" class="tab-panel active">
+      <div class="layout">
+        <aside class="card sidebar">
+          <div class="section-head"><h2>Setup</h2><button id="resetSetup" class="ghost small">Reset</button></div>
+          <div class="field-grid">
+            <label><span>Input voltage</span><div class="input-unit"><input id="voltage" type="number" value="48" step="1"><b>V</b></div></label>
+            <label><span>Drive current</span><div class="input-unit"><input id="driveCurrent" type="number" value="1.8" step="0.1"><b>A</b></div></label>
+            <label><span>Max drive</span><div class="input-unit"><input id="drivePercent" type="number" value="100" step="5"><b>%</b></div></label>
+            <label><span>Max motor power</span><div class="input-unit"><input id="maxPower" type="number" value="50" step="5"><b>W</b></div></label>
+            <label><span>Pulley</span><div class="input-unit"><input id="pulley" type="number" value="20" step="1"><b>T</b></div></label>
+            <label><span>Gear ratio</span><div class="input-unit"><input id="gear" type="number" value="1" step="0.1"><b>:1</b></div></label>
+            <label><span>Acceleration</span><div class="input-unit"><input id="accel" type="number" value="20000" step="1000"><b>mm/s²</b></div></label>
+            <label><span>Moving mass</span><div class="input-unit"><input id="mass" type="number" value="500" step="10"><b>g</b></div></label>
+            <label><span>Graph max</span><div class="input-unit"><input id="maxSpeed" type="number" value="3000" step="100"><b>mm/s</b></div></label>
+            <label><span>Resolution</span><div class="input-unit"><input id="resolution" type="number" value="20" step="10"><b>mm/s</b></div></label>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-head"><h2>Motor dropdowns</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
+          <div id="motorSlots" class="motor-slots"></div>
+          <p class="hint">Bis zu 8 Motoren gleichzeitig. Die Auswahl wird lokal im Browser gespeichert.</p>
+
+          <div class="divider"></div>
+          <button id="customToggle" class="ghost full">+ Custom Motor</button>
+          <div id="customMotor" class="custom-box hidden">
+            <div class="field-grid compact">
+              <label class="wide"><span>Name</span><input id="cName" placeholder="z. B. AK Test 2504"></label>
+              <label><span>Rated current</span><input id="cCurrent" type="number" value="2.5" step="0.1"></label>
+              <label><span>Holding torque Ncm</span><input id="cTorque" type="number" value="55" step="1"></label>
+              <label><span>Inductance mH</span><input id="cInduct" type="number" value="1.5" step="0.1"></label>
+              <label><span>Resistance Ω</span><input id="cRes" type="number" value="1.2" step="0.1"></label>
+              <label><span>Rotor inertia g·cm²</span><input id="cInertia" type="number" value="80" step="1"></label>
+              <label><span>Step angle °</span><input id="cStep" type="number" value="1.8" step="0.1"></label>
+            </div>
+            <button id="addCustom" class="primary full">Add custom motor</button>
+          </div>
+        </aside>
+
+        <div class="content-stack">
+          <div class="metrics">
+            <div class="metric"><span>Torque required</span><strong id="metricTorque">–</strong></div>
+            <div class="metric"><span>Pulley radius</span><strong id="metricRadius">–</strong></div>
+            <div class="metric"><span>Selected motors</span><strong id="metricCount">–</strong></div>
+            <div class="metric"><span>Graph range</span><strong id="metricRange">–</strong></div>
+          </div>
+
+          <section class="card chart-card">
+            <div class="card-title-row">
+              <div><h2>Available torque vs. speed</h2><p>Motor torque after drive limits and rotor-inertia demand.</p></div>
+              <div id="legend" class="legend"></div>
+            </div>
+            <div class="chart-wrap"><svg id="torqueChart" viewBox="0 0 1200 560" preserveAspectRatio="none"></svg><div id="tooltip" class="tooltip"></div></div>
+          </section>
+
+          <section class="card table-card">
+            <div class="card-title-row"><div><h2>Motor comparison</h2><p>Current setup, calculated from the database values.</p></div></div>
+            <div class="table-scroll"><table><thead><tr><th>Motor</th><th>Rated A</th><th>Holding Ncm</th><th>L mH</th><th>R Ω</th><th>Rotor g·cm²</th><th>Drive A</th><th>Rotor loss Ncm</th><th>Last point ≥ required</th></tr></thead><tbody id="motorResults"></tbody></table></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-travel" class="tab-panel">
+      <div class="tool-grid">
+        <section class="card tool-card">
+          <div class="card-title-row"><div><h2>Travel Time Calculator</h2><p>Rest-to-rest move: beschleunigen → ggf. cruisen → abbremsen.</p></div></div>
+          <div class="travel-top">
+            <label><span>Travel distance</span><div class="input-unit"><input id="travelDistance" type="number" value="75" step="1"><b>mm</b></div></label>
+            <div class="preset-row"><button data-distance="10">10</button><button data-distance="25">25</button><button data-distance="50">50</button><button data-distance="75" class="active">75</button><button data-distance="100">100</button><button data-distance="150">150</button></div>
+          </div>
+          <div id="travelProfiles" class="travel-profiles"></div>
+          <button id="addTravelProfile" class="ghost">+ Profile</button>
+        </section>
+
+        <section class="card tool-card">
+          <div class="card-title-row"><div><h2>Result</h2><p>Fastest profile is used as the comparison baseline.</p></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Profile</th><th>Time</th><th>Profile type</th><th>Peak speed</th><th>Distance to hit Vmax</th><th>vs. fastest</th></tr></thead><tbody id="travelResults"></tbody></table></div>
+          <div class="travel-explain" id="travelExplain"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="tab-matrix" class="tab-panel">
+      <div class="tool-grid matrix-layout">
+        <aside class="card tool-card matrix-controls">
+          <div class="card-title-row"><div><h2>Accel / Speed Matrix</h2><p>Theoretical torque margin for one motor across a speed/accel grid.</p></div></div>
+          <label><span>Matrix motor</span><select id="matrixMotor"></select></label>
+          <div class="field-grid matrix-inputs">
+            <label><span>Speed min</span><input id="matrixSpeedMin" type="number" value="500" step="100"></label>
+            <label><span>Speed max</span><input id="matrixSpeedMax" type="number" value="1500" step="100"></label>
+            <label><span>Speed step</span><input id="matrixSpeedStep" type="number" value="100" step="20"></label>
+            <label><span>Accel min</span><input id="matrixAccelMin" type="number" value="30000" step="5000"></label>
+            <label><span>Accel max</span><input id="matrixAccelMax" type="number" value="150000" step="5000"></label>
+            <label><span>Accel step</span><input id="matrixAccelStep" type="number" value="10000" step="5000"></label>
+          </div>
+          <div class="matrix-legend"><span class="heat strong">+50%</span><span class="heat good">+20%</span><span class="heat tight">0…20%</span><span class="heat fail">FAIL</span></div>
+          <p class="hint">Margin = available torque / required torque − 1. Das ist eine Simulation, kein Skip-Prädiktor mit Garantie.</p>
+        </aside>
+
+        <section class="card tool-card matrix-card">
+          <div id="matrixSummary" class="matrix-summary"></div>
+          <div id="matrixTable" class="matrix-scroll"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <b>AK3D Stepper Torque Simulator</b> · Rechenmodell aus der vorhandenen Stepper-Torque-Tabelle. Reale Ergebnisse hängen zusätzlich von Treiber/Chopper, Bus-Spannung, Temperatur, Riemen, Mechanik und Resonanzen ab.
+  </footer>
+</body>
+</html>
