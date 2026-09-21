@@ -17,6 +17,10 @@
 
   window.AK3D_MOTORS = window.AK3D_MOTORS || [];
 
+  // Hide the two legacy no-name entries from all public selectors/calculators.
+  // They stay out of Torque Curve and Accel / Speed Matrix without touching user custom motors.
+  window.AK3D_MOTORS = window.AK3D_MOTORS.filter(m => m.brand !== "Noname");
+
   // StepperOnline motors in this database are OMC motors. Use one consistent brand
   // everywhere (dropdown groups, chart legend, details and matrix).
   window.AK3D_MOTORS.forEach(m => {
