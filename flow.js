@@ -1,6 +1,32 @@
 (() => {
   const $ = id => document.getElementById(id);
 
+  // Firefox can render individual SVG number glyphs with slightly different optical
+  // vertical bounds even when their text baselines are identical. Measure the actual
+  // rendered boxes and compensate each x-axis tick so their visible tops line up.
+  function alignTorqueXAxisTicks() {
+    const svg = $('torqueChart');
+    if (!svg) return;
+    requestAnimationFrame(() => {
+      const ticks = [...svg.querySelectorAll('text')].filter(t => t.getAttribute('y') === '541');
+      if (ticks.length < 2) return;
+      ticks.forEach(t => t.removeAttribute('transform'));
+      const boxes = ticks.map(t => t.getBBox());
+      const targetTop = Math.max(...boxes.map(b => b.y));
+      ticks.forEach((t, i) => {
+        const dy = targetTop - boxes[i].y;
+        t.setAttribute('transform', `translate(0 ${dy.toFixed(2)})`);
+      });
+    });
+  }
+
+  const torqueSvg = $('torqueChart');
+  if (torqueSvg) {
+    new MutationObserver(alignTorqueXAxisTicks).observe(torqueSvg, { childList: true });
+    alignTorqueXAxisTicks();
+    window.addEventListener('resize', alignTorqueXAxisTicks);
+  }
+
   // Global readability pass for the whole Motion Lab UI.
   if (!document.querySelector('link[data-ak3d-ui-polish]')) {
     const link = document.createElement('link');
