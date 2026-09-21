@@ -22,6 +22,25 @@
     return { nema, brand, label: `NEMA ${nema} · ${brand}` };
   }
 
+  function bodyLength(m) {
+    const n = Number(m?.bodyLength);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  function bodyLengthLabel(m) {
+    const n = bodyLength(m);
+    return n === null ? '? mm' : `${Number(n.toFixed(1))} mm`;
+  }
+
+  function compareMotorLengthThenModel(a, b) {
+    const aLen = bodyLength(a);
+    const bLen = bodyLength(b);
+    if (aLen === null && bLen !== null) return 1;
+    if (aLen !== null && bLen === null) return -1;
+    if (aLen !== null && bLen !== null && aLen !== bLen) return aLen - bLen;
+    return String(a.model || a.key).localeCompare(String(b.model || b.key), undefined, {numeric:true, sensitivity:'base'});
+  }
+
   function sortedGroups() {
     const groups = new Map();
     allMotors().forEach(m => {
@@ -35,7 +54,7 @@
       return size || a.brand.localeCompare(b.brand, undefined, {sensitivity:'base'});
     }).map(g => ({
       ...g,
-      motors: g.motors.sort((a,b) => String(a.model || a.key).localeCompare(String(b.model || b.key), undefined, {numeric:true, sensitivity:'base'}))
+      motors: g.motors.sort(compareMotorLengthThenModel)
     }));
   }
 
@@ -55,7 +74,7 @@
       group.motors.forEach(m => {
         const option = document.createElement('option');
         option.value = m.key;
-        option.textContent = m.model || m.key;
+        option.textContent = `${bodyLengthLabel(m)} · ${m.model || m.key}`;
         optgroup.appendChild(option);
       });
       frag.appendChild(optgroup);
@@ -116,6 +135,20 @@
     return Number.isFinite(v) ? v : '';
   }
 
+  function enrichNewestCustomMotor() {
+    let custom = [];
+    try { custom = JSON.parse(localStorage.getItem('ak3d-custom-motors') || '[]'); } catch (_) { return; }
+    if (!Array.isArray(custom) || !custom.length) return;
+    const newest = custom[custom.length - 1];
+    const brand = value('cBrand');
+    const nemaRaw = value('cNema');
+    const length = numberValue('cBodyLength');
+    if (brand) newest.brand = brand;
+    if (nemaRaw && nemaRaw !== 'other' && Number.isFinite(Number(nemaRaw))) newest.nema = Number(nemaRaw);
+    if (length !== '') newest.bodyLength = length;
+    localStorage.setItem('ak3d-custom-motors', JSON.stringify(custom));
+  }
+
   function submitMotorRequest() {
     const model = value('cName');
     const brand = value('cBrand');
@@ -161,7 +194,14 @@
   function refreshAfterUiChange(event) {
     const target = event.target;
     if (!target) return;
-    if (target.closest?.('#motorSlots') || target.id === 'addMotorSlot' || target.id === 'addCustom' || target.id === 'matrixMotor') {
+    if (target.id === 'addCustom') {
+      setTimeout(() => {
+        enrichNewestCustomMotor();
+        sortMotorSelectors();
+      }, 0);
+      return;
+    }
+    if (target.closest?.('#motorSlots') || target.id === 'addMotorSlot' || target.id === 'matrixMotor') {
       setTimeout(sortMotorSelectors, 0);
     }
   }
