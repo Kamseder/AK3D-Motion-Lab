@@ -38,12 +38,15 @@ footer::before{content:"AK3D MOTION LAB · 3D PRINTING CALCULATOR SUITE · Calcu
 .metric span{font-size:10px;line-height:1.2;align-self:start}
 .metric strong{display:block;font-size:18px;line-height:1.1;margin-top:6px;font-variant-numeric:tabular-nums}
 
-/* Torque chart: chart data and both axis titles use the neutral UI font. */
+/* Torque chart: the SVG is intentionally stretched with preserveAspectRatio=none.
+   Keep numeric chart data in SVG, but render both axis titles as normal HTML/CSS
+   overlays so the font geometry is identical horizontally and vertically. */
 .chart-wrap svg text{font-size:13px!important;font-variant-numeric:tabular-nums}
 #torqueChart text[y="541"]{dominant-baseline:middle;alignment-baseline:middle;font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;transform:translateY(-14px)}
-#torqueChart text.ak-axis-title{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:16px!important;font-weight:600!important;font-style:normal!important;font-stretch:normal!important;font-synthesis:none!important;letter-spacing:0!important}
-/* The horizontal title reads wider than the rotated y title, so optically condense only x. */
-#torqueChart text.ak-axis-title[y="550"]{transform-box:fill-box;transform-origin:center;transform:translateY(5px) scaleX(.86)}
+#torqueChart text.ak-axis-title{display:none!important}
+#tab-torque .chart-wrap::before,#tab-torque .chart-wrap::after{position:absolute;z-index:2;pointer-events:none;color:#fff;font-family:var(--ak3d-display);font-size:16px;font-weight:700;font-style:normal;font-stretch:normal;font-synthesis:none;letter-spacing:0;line-height:1;white-space:nowrap}
+#tab-torque .chart-wrap::after{content:"Speed [mm/s]";left:50%;bottom:2px;transform:translateX(-50%)}
+#tab-torque .chart-wrap::before{content:"Available torque [N·cm]";left:29px;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center}
 
 /* Travel page: give the result side more room and make the conclusion obvious. */
 .travel-layout{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)}
@@ -86,4 +89,6 @@ footer::before{content:"AK3D MOTION LAB · 3D PRINTING CALCULATOR SUITE · Calcu
   .matrix-table th,.matrix-table td{height:48px;min-height:48px}
   .travel-explain{font-size:13px;padding:12px}
   .travel-explain b{font-size:14px}
+  #tab-torque .chart-wrap::before,#tab-torque .chart-wrap::after{font-size:14px}
+  #tab-torque .chart-wrap::before{left:23px}
 }
