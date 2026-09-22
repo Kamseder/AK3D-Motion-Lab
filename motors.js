@@ -79,19 +79,6 @@ window.AK3D_MOTORS = [
 
   // ── NEMA 17 · FYSETC ──
   {
-    key: "FYSETC-MSM-30010-R0005",
-    brand: "FYSETC",
-    model: "MSM-30010-R0005",
-    nema: 17,
-    bodyLength: 20,
-    stepAngle: 1.8,
-    ratedCurrent: 1,
-    holdingTorque: 14,
-    inductance: 3.6,
-    resistance: 4.1,
-    rotorInertia: null
-  },
-  {
     key: "FYSETC-TB-3544",
     brand: "FYSETC",
     model: "TB-3544",
@@ -684,6 +671,20 @@ window.AK3D_MOTORS = [
 
   // ── NEMA 17 · SIBOOR ──
   {
+    key: "SIBOOR-42STH40-1684A-300",
+    brand: "SIBOOR",
+    model: "42STH40-1684A-300",
+    nema: 17,
+    bodyLength: 41,
+    stepAngle: 1.8,
+    ratedCurrent: 1.68,
+    holdingTorque: 36,
+    inductance: 3.2,
+    resistance: 1.65,
+    rotorInertia: 54,
+    note: "Integrated TR8x4 300 mm lead screw; values from SIBOOR motor specification supplied to AK3D Motion Lab."
+  },
+  {
     key: "SIBOOR-42STH48-2504(S45)",
     brand: "SIBOOR",
     model: "42STH48-2504(S45)",
@@ -694,7 +695,8 @@ window.AK3D_MOTORS = [
     holdingTorque: 60,
     inductance: 1.6,
     resistance: 0.9,
-    rotorInertia: 72
+    rotorInertia: 72,
+    note: "Values verified against SIBOOR motor specification supplied to AK3D Motion Lab."
   },
 
   // ── NEMA 17 · Wantai ──
@@ -956,6 +958,22 @@ window.AK3D_MOTORS = [
     rotorInertia: 54
   },
 
+  // ── NEMA 14 · SIBOOR ──
+  {
+    key: "SIBOOR-14STH20-1004A",
+    brand: "SIBOOR",
+    model: "14STH20-1004A",
+    nema: 14,
+    bodyLength: 21,
+    stepAngle: 1.8,
+    ratedCurrent: 1.88,
+    holdingTorque: 12,
+    inductance: 1.5,
+    resistance: 1.7,
+    rotorInertia: 16,
+    note: "36 mm pancake stepper with 10-tooth pulley; values from SIBOOR motor specification supplied to AK3D Motion Lab."
+  },
+
   // ── NEMA 23 · Hanpose ──
   {
     key: "Hanpose-23HS4128",
@@ -1006,5 +1024,5 @@ window.AK3D_DEFAULTS = [
   "StepperOnline-17HS19-2504S-H-V1",
   "SIBOOR-42STH48-2504(S45)",
   "LDO-42STH48-2804AH(S55)",
-  "LDO-42STH60-3004AC(S40) Kraken V2"
+  "LDO-42STH60-3004AC(S40) Kraken V2",
 ];
