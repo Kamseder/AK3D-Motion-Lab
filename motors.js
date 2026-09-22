@@ -1,2 +1,1010 @@
-window.AK3D_MOTORS=[{"key":"FYSETC-35HSH7402-24B-400A","brand":"FYSETC","model":"35HSH7402-24B-400A","nema":14.0,"bodyLength":51.0,"stepAngle":1.8,"ratedCurrent":1.5,"holdingTorque":42.0,"inductance":5.5,"resistance":2.8,"rotorInertia":48.0},{"key":"FYSETC-42HSC1404B-200N8","brand":"FYSETC","model":"42HSC1404B-200N8","nema":14.0,"bodyLength":34.5,"stepAngle":1.8,"ratedCurrent":0.4,"holdingTorque":32.0,"inductance":38.0,"resistance":29.0,"rotorInertia":40.0},{"key":"FYSETC-G36HSY4407-6D-550","brand":"FYSETC","model":"G36HSY4407-6D-550","nema":14.0,"bodyLength":20.5,"stepAngle":1.8,"ratedCurrent":0.5,"holdingTorque":12.0,"inductance":10.0,"resistance":13.0,"rotorInertia":15.0},{"key":"FYSETC-MSM-30010-R0005","brand":"FYSETC","model":"MSM-30010-R0005","nema":17.0,"bodyLength":20.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":14.0,"inductance":3.6,"resistance":4.1,"rotorInertia":null},{"key":"FYSETC-TB-3544","brand":"FYSETC","model":"TB-3544","nema":17.0,"bodyLength":39.0,"stepAngle":1.8,"ratedCurrent":1.5,"holdingTorque":50.0,"inductance":3.8,"resistance":1.8,"rotorInertia":55.0},{"key":"FYSETC-17HS19-2004S-C","brand":"FYSETC","model":"17HS19-2004S-C","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":59.0,"inductance":3.0,"resistance":1.4,"rotorInertia":82.0},{"key":"Hanpose-23HS4128","brand":"Hanpose","model":"23HS4128","nema":23.0,"bodyLength":41.0,"stepAngle":1.8,"ratedCurrent":2.8,"holdingTorque":55.0,"inductance":1.4,"resistance":0.7,"rotorInertia":120.0},{"key":"LDO-35STH48-1504AH(VRN)","brand":"LDO","model":"35STH48-1504AH(VRN)","nema":14.0,"bodyLength":52.0,"stepAngle":1.8,"ratedCurrent":1.5,"holdingTorque":37.0,"inductance":3.8,"resistance":2.8,"rotorInertia":51.8},{"key":"LDO-35STH48-1684AHVRN","brand":"LDO","model":"35STH48-1684AHVRN","nema":14.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.68,"holdingTorque":40.0,"inductance":2.8,"resistance":1.65,"rotorInertia":49.0},{"key":"LDO-36STH20-1004AHG(XH)","brand":"LDO","model":"36STH20-1004AHG(XH)","nema":14.0,"bodyLength":20.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":10.0,"inductance":1.6,"resistance":2.1,"rotorInertia":16.0},{"key":"LDO-42STH20-1004ASH","brand":"LDO","model":"42STH20-1004ASH","nema":17.0,"bodyLength":20.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":18.0,"inductance":7.0,"resistance":7.2,"rotorInertia":21.4},{"key":"LDO-42STH38-1684MAC","brand":"LDO","model":"42STH38-1684MAC","nema":17.0,"bodyLength":40.0,"stepAngle":0.9,"ratedCurrent":1.68,"holdingTorque":32.0,"inductance":3.2,"resistance":1.65,"rotorInertia":54.0},{"key":"LDO-42STH40-1004MAH(VRN)","brand":"LDO","model":"42STH40-1004MAH(VRN)","nema":17.0,"bodyLength":40.0,"stepAngle":0.9,"ratedCurrent":1.0,"holdingTorque":39.0,"inductance":11.5,"resistance":4.1,"rotorInertia":62.0},{"key":"LDO-42STH40-1684AC","brand":"LDO","model":"42STH40-1684AC","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":1.68,"holdingTorque":36.0,"inductance":3.6,"resistance":1.65,"rotorInertia":54.0},{"key":"LDO-42STH40-2004MAH(VRN)","brand":"LDO","model":"42STH40-2004MAH(VRN)","nema":17.0,"bodyLength":40.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":35.0,"inductance":2.8,"resistance":1.1,"rotorInertia":71.0},{"key":"LDO-42STH47-1684AC","brand":"LDO","model":"42STH47-1684AC","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.68,"holdingTorque":49.0,"inductance":2.8,"resistance":1.65,"rotorInertia":68.0},{"key":"LDO-42STH47-2504AC","brand":"LDO","model":"42STH47-2504AC","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":53.900000000000006,"inductance":1.8,"resistance":1.25,"rotorInertia":68.0},{"key":"LDO-42STH48-1684MAH","brand":"LDO","model":"42STH48-1684MAH","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":1.68,"holdingTorque":39.0,"inductance":2.8,"resistance":1.65,"rotorInertia":68.0},{"key":"LDO-42STH48-2004AC(VRN)","brand":"LDO","model":"42STH48-2004AC(VRN)","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":59.0,"inductance":3.0,"resistance":1.6,"rotorInertia":85.0},{"key":"LDO-42STH48-2004AH","brand":"LDO","model":"42STH48-2004AH","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":59.0,"inductance":3.0,"resistance":1.4,"rotorInertia":68.0},{"key":"LDO-42STH48-2004MAH(VRN)","brand":"LDO","model":"42STH48-2004MAH(VRN)","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":40.0,"inductance":2.0,"resistance":1.45,"rotorInertia":68.0},{"key":"LDO-42STH48-2504AC","brand":"LDO","model":"42STH48-2504AC","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":55.0,"inductance":1.5,"resistance":1.2,"rotorInertia":84.5},{"key":"LDO-42STH48-2504AH","brand":"LDO","model":"42STH48-2504AH","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":55.0,"inductance":1.5,"resistance":1.2,"rotorInertia":84.5},{"key":"LDO-42STH60-2004AH","brand":"LDO","model":"42STH60-2004AH","nema":17.0,"bodyLength":60.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":83.0,"inductance":3.3,"resistance":2.0,"rotorInertia":102.0},{"key":"LDO-42STH60-2004MAC (Railcore)","brand":"LDO","model":"42STH60-2004MAC (Railcore)","nema":17.0,"bodyLength":60.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":59.0,"inductance":3.0,"resistance":1.4,"rotorInertia":120.0},{"key":"LDO-42STH60-2004MAH","brand":"LDO","model":"42STH60-2004MAH","nema":17.0,"bodyLength":60.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":58.800000000000004,"inductance":3.0,"resistance":1.4,"rotorInertia":120.0},{"key":"LDO-57STH41-2804MAC(HEV)","brand":"LDO","model":"57STH41-2804MAC(HEV)","nema":23.0,"bodyLength":41.0,"stepAngle":0.9,"ratedCurrent":2.8,"holdingTorque":60.0,"inductance":1.4,"resistance":0.7,"rotorInertia":120.0},{"key":"LDO-57STH56-2804MAC(RC)","brand":"LDO","model":"57STH56-2804MAC(RC)","nema":23.0,"bodyLength":56.0,"stepAngle":0.9,"ratedCurrent":2.8,"holdingTorque":120.0,"inductance":3.4,"resistance":1.1,"rotorInertia":305.0},{"key":"Moons-MS14HA1P4150","brand":"Moons","model":"MS14HA1P4150","nema":14.0,"bodyLength":27.0,"stepAngle":0.9,"ratedCurrent":1.5,"holdingTorque":11.0,"inductance":1.8,"resistance":1.55,"rotorInertia":12.0},{"key":"Moons-MS14HA3P4150","brand":"Moons","model":"MS14HA3P4150","nema":14.0,"bodyLength":36.0,"stepAngle":0.9,"ratedCurrent":1.5,"holdingTorque":18.0,"inductance":2.2,"resistance":1.61,"rotorInertia":20.0},{"key":"Moons-MS17HA2P4150 ","brand":"Moons","model":"MS17HA2P4150 ","nema":17.0,"bodyLength":39.8,"stepAngle":0.9,"ratedCurrent":1.5,"holdingTorque":40.0,"inductance":5.4,"resistance":1.98,"rotorInertia":57.0},{"key":"Moons-MS17HA2P4200","brand":"Moons","model":"MS17HA2P4200","nema":17.0,"bodyLength":40.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":39.0,"inductance":2.8,"resistance":1.05,"rotorInertia":57.0},{"key":"Moons-MS17HDBP4100","brand":"Moons","model":"MS17HDBP4100","nema":17.0,"bodyLength":63.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":82.0,"inductance":14.6,"resistance":5.6,"rotorInertia":123.0},{"key":"Motech-MT-1704HSM168RE","brand":"Motech","model":"MT-1704HSM168RE","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":1.68,"holdingTorque":43.120000000000005,"inductance":2.8,"resistance":1.65,"rotorInertia":68.0},{"key":"Nanotec-ST4209L1704-A","brand":"Nanotec","model":"ST4209L1704-A","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":1.68,"holdingTorque":44.0,"inductance":5.0,"resistance":1.8,"rotorInertia":68.0},{"key":"OMC-14HS10-0404S","brand":"OMC","model":"14HS10-0404S","nema":14.0,"bodyLength":26.0,"stepAngle":1.8,"ratedCurrent":0.4,"holdingTorque":14.0,"inductance":30.0,"resistance":30.0,"rotorInertia":12.0},{"key":"OMC-14HS13-0804S","brand":"OMC","model":"14HS13-0804S","nema":14.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":0.8,"holdingTorque":18.0,"inductance":10.0,"resistance":6.8,"rotorInertia":14.0},{"key":"OMC-14HS17-0504S","brand":"OMC","model":"14HS17-0504S","nema":14.0,"bodyLength":42.0,"stepAngle":1.8,"ratedCurrent":0.5,"holdingTorque":23.0,"inductance":26.0,"resistance":15.0,"rotorInertia":18.0},{"key":"OMC-14HS20-1504S","brand":"OMC","model":"14HS20-1504S","nema":14.0,"bodyLength":52.0,"stepAngle":1.8,"ratedCurrent":1.5,"holdingTorque":40.0,"inductance":3.8,"resistance":2.8,"rotorInertia":54.0},{"key":"OMC-17HM19-1684S","brand":"OMC","model":"17HM19-1684S","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":1.68,"holdingTorque":44.0,"inductance":4.1,"resistance":1.65,"rotorInertia":68.0},{"key":"OMC-17HM19-2004S","brand":"OMC","model":"17HM19-2004S","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":2.0,"holdingTorque":46.0,"inductance":4.0,"resistance":1.45,"rotorInertia":82.0},{"key":"OMC-17HS08-1004S","brand":"OMC","model":"17HS08-1004S","nema":17.0,"bodyLength":20.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":16.0,"inductance":3.7,"resistance":4.5,"rotorInertia":22.0},{"key":"OMC-17HS13-0404S1","brand":"OMC","model":"17HS13-0404S1","nema":17.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":0.4,"holdingTorque":26.0,"inductance":37.0,"resistance":30.0,"rotorInertia":38.0},{"key":"OMC-17HS16-2004S1","brand":"OMC","model":"17HS16-2004S1","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":45.0,"inductance":2.6,"resistance":1.1,"rotorInertia":54.0},{"key":"OMC-17HS19-2004S1","brand":"OMC","model":"17HS19-2004S1","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":59.0,"inductance":3.0,"resistance":1.4,"rotorInertia":82.0},{"key":"OMC-17HS24-2104S","brand":"OMC","model":"17HS24-2104S","nema":17.0,"bodyLength":60.0,"stepAngle":1.8,"ratedCurrent":2.1,"holdingTorque":65.0,"inductance":3.0,"resistance":1.6,"rotorInertia":148.0},{"key":"Wantai-42BYGHW811","brand":"Wantai","model":"42BYGHW811","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":47.0,"inductance":1.8,"resistance":1.25,"rotorInertia":68.0},{"key":"LDO-42STH48-2804AC","brand":"LDO","model":"42STH48-2804AC","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.8,"holdingTorque":42.0,"inductance":0.6,"resistance":0.7,"rotorInertia":84.5},{"key":"Wantai-42BYGHW804 ","brand":"Wantai","model":"Wantai-42BYGHW804 ","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.2,"holdingTorque":45.0,"inductance":5.0,"resistance":3.0,"rotorInertia":68.0},{"key":"LDO-42STH48-2504MAC(F)","brand":"LDO","model":"42STH48-2504MAC(F)","nema":17.0,"bodyLength":48.0,"stepAngle":0.9,"ratedCurrent":2.5,"holdingTorque":45.0,"inductance":1.5,"resistance":1.2,"rotorInertia":85.0},{"key":"FYSETC-MS17HD2P420A-01","brand":"FYSETC","model":"MS17HD2P420A-01","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":54.0,"inductance":3.1,"resistance":1.37,"rotorInertia":57.0},{"key":"Cloudray-17CS03A-130E","brand":"Cloudray","model":"17CS03A-130E","nema":17.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":1.3,"holdingTorque":28.0,"inductance":2.8,"resistance":2.26,"rotorInertia":41.0},{"key":"Cloudray-17CS02A-120","brand":"Cloudray","model":"17CS02A-120","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":1.2,"holdingTorque":20.0,"inductance":5.1,"resistance":2.6,"rotorInertia":57.0},{"key":"Cloudray-17CS01A-100","brand":"Cloudray","model":"17CS01A-100","nema":17.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":15.0,"inductance":1.89,"resistance":1.28,"rotorInertia":41.0},{"key":"Cloudray-17CS05A-180E","brand":"Cloudray","model":"17CS05A-180E","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.8,"holdingTorque":52.0,"inductance":5.8,"resistance":2.4,"rotorInertia":82.0},{"key":"JKongMotor-JK42HS40-1004-02F","brand":"JKongMotor","model":"JK42HS40-1004-02F","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":1.0,"holdingTorque":42.0,"inductance":8.9,"resistance":3.9,"rotorInertia":54.0},{"key":"JKongMotor-JK42HS40-1704","brand":"JKongMotor","model":"JK42HS40-1704","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":1.7,"holdingTorque":42.0,"inductance":2.3,"resistance":1.5,"rotorInertia":54.0},{"key":"Noname-B0459","brand":"Noname","model":"B0459","nema":17.0,"bodyLength":47.0,"stepAngle":1.8,"ratedCurrent":2.0,"holdingTorque":56.0,"inductance":1.9,"resistance":1.3,"rotorInertia":82.0},{"key":"Hanpose-17HS8401","brand":"Hanpose","model":"17HS8401","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.8,"holdingTorque":52.0,"inductance":3.2,"resistance":1.8,"rotorInertia":68.0},{"key":"G-Penny-42HS4825A4","brand":"G-Penny","model":"42HS4825A4","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":50.0,"inductance":1.8,"resistance":1.6,"rotorInertia":68.0},{"key":"Noname-42x4","brand":"Noname","model":"42x4","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":1.68,"holdingTorque":44.0,"inductance":2.3,"resistance":1.65,"rotorInertia":68.0},{"key":"RATTM-17HS3430","brand":"RATTM","model":"17HS3430","nema":17.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":1.2,"holdingTorque":28.0,"inductance":3.8,"resistance":2.3,"rotorInertia":34.0},{"key":"RATTM-17HS8403","brand":"RATTM","model":"17HS8403","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.3,"holdingTorque":46.0,"inductance":1.6,"resistance":1.2,"rotorInertia":68.0},{"key":"RATTM-17HS3410","brand":"RATTM","model":"17HS3410","nema":17.0,"bodyLength":34.0,"stepAngle":1.8,"ratedCurrent":1.7,"holdingTorque":28.0,"inductance":1.8,"resistance":1.2,"rotorInertia":34.0},{"key":"YunTaiKe-42CM08","brand":"YunTaiKe","model":"42CM08","nema":17.0,"bodyLength":60.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":80.0,"inductance":2.4,"resistance":1.0,"rotorInertia":110.0},{"key":"YunTaiKe-42CM06","brand":"YunTaiKe","model":"42CM06","nema":17.0,"bodyLength":47.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":60.0,"inductance":1.6,"resistance":0.9,"rotorInertia":72.0},{"key":"YunTaiKe-42CM02","brand":"YunTaiKe","model":"42CM02","nema":17.0,"bodyLength":33.0,"stepAngle":1.8,"ratedCurrent":1.5,"holdingTorque":20.0,"inductance":1.4,"resistance":1.4,"rotorInertia":35.0},{"key":"Wantai-42BYGHW811-06","brand":"Wantai","model":"42BYGHW811-06","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":60.0,"inductance":1.75,"resistance":1.0,"rotorInertia":68.0},{"key":"Wantai-42BYGHW609","brand":"Wantai","model":"42BYGHW609","nema":17.0,"bodyLength":40.0,"stepAngle":1.8,"ratedCurrent":1.7,"holdingTorque":40.0,"inductance":2.8,"resistance":2.0,"rotorInertia":54.0},{"key":"SIBOOR-42STH48-2504(S45)","brand":"SIBOOR","model":"42STH48-2504(S45)","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":60.0,"inductance":1.6,"resistance":0.9,"rotorInertia":72.0},{"key":"StepperOnline-17HS19-2504S-H-V1","brand":"StepperOnline","model":"17HS19-2504S-H-V1","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":55.0,"inductance":1.6,"resistance":1.1,"rotorInertia":68.0},{"key":"LDO-42STH48-2504AH(S45R)","brand":"LDO","model":"42STH48-2504AH(S45R)","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.5,"holdingTorque":55.0,"inductance":1.5,"resistance":1.2,"rotorInertia":84.5},{"key":"LDO-42STH48-2804AH(S55)","brand":"LDO","model":"42STH48-2804AH(S55)","nema":17.0,"bodyLength":48.0,"stepAngle":1.8,"ratedCurrent":2.8,"holdingTorque":25.0,"inductance":0.6,"resistance":0.7,"rotorInertia":84.5},{"key":"LDO-42STH60-3004AC(S40) Kraken V2","brand":"LDO","model":"42STH60-3004AC(S40) Kraken V2","nema":17.0,"bodyLength":60.0,"stepAngle":1.8,"ratedCurrent":3.0,"holdingTorque":90.0,"inductance":2.3,"resistance":1.1,"rotorInertia":102.0}];
-window.AK3D_DEFAULTS=["LDO-42STH48-2504AH(S45R)","StepperOnline-17HS19-2504S-H-V1","SIBOOR-42STH48-2504(S45)","LDO-42STH48-2804AH(S55)","LDO-42STH60-3004AC(S40) Kraken V2"];
+// AK3D Motion Lab · Stepper database
+//
+// Ordered for humans exactly like the UI: NEMA → brand → body length → model.
+// Keep `key` unique and stable because saved browser selections reference it.
+// Units: bodyLength mm · ratedCurrent A · holdingTorque N·cm · inductance mH
+//        resistance Ω · rotorInertia g·cm² · stepAngle °
+
+window.AK3D_MOTORS = [
+  // ── NEMA 17 · Cloudray ──
+  {
+    key: "Cloudray-17CS01A-100",
+    brand: "Cloudray",
+    model: "17CS01A-100",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 15,
+    inductance: 1.89,
+    resistance: 1.28,
+    rotorInertia: 41
+  },
+  {
+    key: "Cloudray-17CS03A-130E",
+    brand: "Cloudray",
+    model: "17CS03A-130E",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 1.3,
+    holdingTorque: 28,
+    inductance: 2.8,
+    resistance: 2.26,
+    rotorInertia: 41
+  },
+  {
+    key: "Cloudray-17CS02A-120",
+    brand: "Cloudray",
+    model: "17CS02A-120",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 1.2,
+    holdingTorque: 20,
+    inductance: 5.1,
+    resistance: 2.6,
+    rotorInertia: 57
+  },
+  {
+    key: "Cloudray-17CS05A-180E",
+    brand: "Cloudray",
+    model: "17CS05A-180E",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 1.8,
+    holdingTorque: 52,
+    inductance: 5.8,
+    resistance: 2.4,
+    rotorInertia: 82
+  },
+
+  // ── NEMA 17 · Excit3D ──
+  {
+    key: "Excit3D-MaxMotor",
+    brand: "Excit3D",
+    model: "MaxMotor",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 4,
+    holdingTorque: 56,
+    inductance: 0.6,
+    resistance: 0.45,
+    rotorInertia: 82,
+    source: "https://excit3d.shop/shop/excit3d-max-motor",
+    note: "55 mm shaft, Class H 180 C."
+  },
+
+  // ── NEMA 17 · FYSETC ──
+  {
+    key: "FYSETC-MSM-30010-R0005",
+    brand: "FYSETC",
+    model: "MSM-30010-R0005",
+    nema: 17,
+    bodyLength: 20,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 14,
+    inductance: 3.6,
+    resistance: 4.1,
+    rotorInertia: null
+  },
+  {
+    key: "FYSETC-TB-3544",
+    brand: "FYSETC",
+    model: "TB-3544",
+    nema: 17,
+    bodyLength: 39,
+    stepAngle: 1.8,
+    ratedCurrent: 1.5,
+    holdingTorque: 50,
+    inductance: 3.8,
+    resistance: 1.8,
+    rotorInertia: 55
+  },
+  {
+    key: "FYSETC-MS17HD2P420A-01",
+    brand: "FYSETC",
+    model: "MS17HD2P420A-01",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 54,
+    inductance: 3.1,
+    resistance: 1.37,
+    rotorInertia: 57
+  },
+  {
+    key: "FYSETC-17HS19-2004S-C",
+    brand: "FYSETC",
+    model: "17HS19-2004S-C",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 59,
+    inductance: 3,
+    resistance: 1.4,
+    rotorInertia: 82
+  },
+
+  // ── NEMA 17 · G-Penny ──
+  {
+    key: "G-Penny-42HS4825A4",
+    brand: "G-Penny",
+    model: "42HS4825A4",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 50,
+    inductance: 1.8,
+    resistance: 1.6,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · Hanpose ──
+  {
+    key: "Hanpose-17HS8401",
+    brand: "Hanpose",
+    model: "17HS8401",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 1.8,
+    holdingTorque: 52,
+    inductance: 3.2,
+    resistance: 1.8,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · JKongMotor ──
+  {
+    key: "JKongMotor-JK42HS40-1004-02F",
+    brand: "JKongMotor",
+    model: "JK42HS40-1004-02F",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 42,
+    inductance: 8.9,
+    resistance: 3.9,
+    rotorInertia: 54
+  },
+  {
+    key: "JKongMotor-JK42HS40-1704",
+    brand: "JKongMotor",
+    model: "JK42HS40-1704",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 1.7,
+    holdingTorque: 42,
+    inductance: 2.3,
+    resistance: 1.5,
+    rotorInertia: 54
+  },
+
+  // ── NEMA 17 · LDO ──
+  {
+    key: "LDO-42STH20-1004ASH",
+    brand: "LDO",
+    model: "42STH20-1004ASH",
+    nema: 17,
+    bodyLength: 20,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 18,
+    inductance: 7,
+    resistance: 7.2,
+    rotorInertia: 21.4
+  },
+  {
+    key: "LDO-42STH38-1684MAC",
+    brand: "LDO",
+    model: "42STH38-1684MAC",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 0.9,
+    ratedCurrent: 1.68,
+    holdingTorque: 32,
+    inductance: 3.2,
+    resistance: 1.65,
+    rotorInertia: 54
+  },
+  {
+    key: "LDO-42STH40-1004MAH(VRN)",
+    brand: "LDO",
+    model: "42STH40-1004MAH(VRN)",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 0.9,
+    ratedCurrent: 1,
+    holdingTorque: 39,
+    inductance: 11.5,
+    resistance: 4.1,
+    rotorInertia: 62
+  },
+  {
+    key: "LDO-42STH40-1684AC",
+    brand: "LDO",
+    model: "42STH40-1684AC",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 1.68,
+    holdingTorque: 36,
+    inductance: 3.6,
+    resistance: 1.65,
+    rotorInertia: 54
+  },
+  {
+    key: "LDO-42STH40-2004MAH(VRN)",
+    brand: "LDO",
+    model: "42STH40-2004MAH(VRN)",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 35,
+    inductance: 2.8,
+    resistance: 1.1,
+    rotorInertia: 71
+  },
+  {
+    key: "LDO-42STH47-1684AC",
+    brand: "LDO",
+    model: "42STH47-1684AC",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 1.68,
+    holdingTorque: 49,
+    inductance: 2.8,
+    resistance: 1.65,
+    rotorInertia: 68
+  },
+  {
+    key: "LDO-42STH47-2504AC",
+    brand: "LDO",
+    model: "42STH47-2504AC",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 53.900000000000006,
+    inductance: 1.8,
+    resistance: 1.25,
+    rotorInertia: 68
+  },
+  {
+    key: "LDO-42STH48-1684MAH",
+    brand: "LDO",
+    model: "42STH48-1684MAH",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 1.68,
+    holdingTorque: 39,
+    inductance: 2.8,
+    resistance: 1.65,
+    rotorInertia: 68
+  },
+  {
+    key: "LDO-42STH48-2004AC(VRN)",
+    brand: "LDO",
+    model: "42STH48-2004AC(VRN)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 59,
+    inductance: 3,
+    resistance: 1.6,
+    rotorInertia: 85
+  },
+  {
+    key: "LDO-42STH48-2004AH",
+    brand: "LDO",
+    model: "42STH48-2004AH",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 59,
+    inductance: 3,
+    resistance: 1.4,
+    rotorInertia: 68
+  },
+  {
+    key: "LDO-42STH48-2004MAH(VRN)",
+    brand: "LDO",
+    model: "42STH48-2004MAH(VRN)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 40,
+    inductance: 2,
+    resistance: 1.45,
+    rotorInertia: 68
+  },
+  {
+    key: "LDO-42STH48-2504AC",
+    brand: "LDO",
+    model: "42STH48-2504AC",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 55,
+    inductance: 1.5,
+    resistance: 1.2,
+    rotorInertia: 84.5
+  },
+  {
+    key: "LDO-42STH48-2504AH",
+    brand: "LDO",
+    model: "42STH48-2504AH",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 55,
+    inductance: 1.5,
+    resistance: 1.2,
+    rotorInertia: 84.5
+  },
+  {
+    key: "LDO-42STH48-2504AH(S45R)",
+    brand: "LDO",
+    model: "42STH48-2504AH(S45R)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 55,
+    inductance: 1.5,
+    resistance: 1.2,
+    rotorInertia: 84.5
+  },
+  {
+    key: "LDO-42STH48-2504MAC(F)",
+    brand: "LDO",
+    model: "42STH48-2504MAC(F)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 2.5,
+    holdingTorque: 45,
+    inductance: 1.5,
+    resistance: 1.2,
+    rotorInertia: 85
+  },
+  {
+    key: "LDO-42STH48-2804AC",
+    brand: "LDO",
+    model: "42STH48-2804AC",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.8,
+    holdingTorque: 42,
+    inductance: 0.6,
+    resistance: 0.7,
+    rotorInertia: 84.5
+  },
+  {
+    key: "LDO-42STH48-2804AH(S55)",
+    brand: "LDO",
+    model: "42STH48-2804AH(S55)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.8,
+    holdingTorque: 25,
+    inductance: 0.6,
+    resistance: 0.7,
+    rotorInertia: 84.5
+  },
+  {
+    key: "LDO-42STH60-2004AH",
+    brand: "LDO",
+    model: "42STH60-2004AH",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 83,
+    inductance: 3.3,
+    resistance: 2,
+    rotorInertia: 102
+  },
+  {
+    key: "LDO-42STH60-2004MAC (Railcore)",
+    brand: "LDO",
+    model: "42STH60-2004MAC (Railcore)",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 59,
+    inductance: 3,
+    resistance: 1.4,
+    rotorInertia: 120
+  },
+  {
+    key: "LDO-42STH60-2004MAH",
+    brand: "LDO",
+    model: "42STH60-2004MAH",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 58.800000000000004,
+    inductance: 3,
+    resistance: 1.4,
+    rotorInertia: 120
+  },
+  {
+    key: "LDO-42STH60-3004AC(S40) Kraken V2",
+    brand: "LDO",
+    model: "42STH60-3004AC(S40) Kraken V2",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 1.8,
+    ratedCurrent: 3,
+    holdingTorque: 90,
+    inductance: 2.3,
+    resistance: 1.1,
+    rotorInertia: 102
+  },
+
+  // ── NEMA 17 · Moons ──
+  {
+    key: "Moons-MS17HA2P4150\u00A0",
+    brand: "Moons",
+    model: "MS17HA2P4150",
+    nema: 17,
+    bodyLength: 39.8,
+    stepAngle: 0.9,
+    ratedCurrent: 1.5,
+    holdingTorque: 40,
+    inductance: 5.4,
+    resistance: 1.98,
+    rotorInertia: 57
+  },
+  {
+    key: "Moons-MS17HA2P4200",
+    brand: "Moons",
+    model: "MS17HA2P4200",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 39,
+    inductance: 2.8,
+    resistance: 1.05,
+    rotorInertia: 57
+  },
+  {
+    key: "Moons-MS17HDBP4100",
+    brand: "Moons",
+    model: "MS17HDBP4100",
+    nema: 17,
+    bodyLength: 63,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 82,
+    inductance: 14.6,
+    resistance: 5.6,
+    rotorInertia: 123
+  },
+
+  // ── NEMA 17 · Motech ──
+  {
+    key: "Motech-MT-1704HSM168RE",
+    brand: "Motech",
+    model: "MT-1704HSM168RE",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 1.68,
+    holdingTorque: 43.120000000000005,
+    inductance: 2.8,
+    resistance: 1.65,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · Nanotec ──
+  {
+    key: "Nanotec-ST4209L1704-A",
+    brand: "Nanotec",
+    model: "ST4209L1704-A",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 1.68,
+    holdingTorque: 44,
+    inductance: 5,
+    resistance: 1.8,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · OMC/StepperOnline ──
+  {
+    key: "OMC-17HS08-1004S",
+    brand: "OMC/StepperOnline",
+    model: "17HS08-1004S",
+    nema: 17,
+    bodyLength: 20,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 16,
+    inductance: 3.7,
+    resistance: 4.5,
+    rotorInertia: 22
+  },
+  {
+    key: "OMC-17HS13-0404S1",
+    brand: "OMC/StepperOnline",
+    model: "17HS13-0404S1",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 0.4,
+    holdingTorque: 26,
+    inductance: 37,
+    resistance: 30,
+    rotorInertia: 38
+  },
+  {
+    key: "OMC-17HS16-2004S1",
+    brand: "OMC/StepperOnline",
+    model: "17HS16-2004S1",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 45,
+    inductance: 2.6,
+    resistance: 1.1,
+    rotorInertia: 54
+  },
+  {
+    key: "OMC-17HM19-1684S",
+    brand: "OMC/StepperOnline",
+    model: "17HM19-1684S",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 1.68,
+    holdingTorque: 44,
+    inductance: 4.1,
+    resistance: 1.65,
+    rotorInertia: 68
+  },
+  {
+    key: "OMC-17HM19-2004S",
+    brand: "OMC/StepperOnline",
+    model: "17HM19-2004S",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 0.9,
+    ratedCurrent: 2,
+    holdingTorque: 46,
+    inductance: 4,
+    resistance: 1.45,
+    rotorInertia: 82
+  },
+  {
+    key: "OMC-17HS19-2004S1",
+    brand: "OMC/StepperOnline",
+    model: "17HS19-2004S1",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2,
+    holdingTorque: 59,
+    inductance: 3,
+    resistance: 1.4,
+    rotorInertia: 82
+  },
+  {
+    key: "StepperOnline-17HS19-2504S-H-V1",
+    brand: "OMC/StepperOnline",
+    model: "17HS19-2504S-H-V1",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 55,
+    inductance: 1.6,
+    resistance: 1.1,
+    rotorInertia: 68
+  },
+  {
+    key: "OMC-17HS24-2104S",
+    brand: "OMC/StepperOnline",
+    model: "17HS24-2104S",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 1.8,
+    ratedCurrent: 2.1,
+    holdingTorque: 65,
+    inductance: 3,
+    resistance: 1.6,
+    rotorInertia: 148
+  },
+
+  // ── NEMA 17 · RATTM ──
+  {
+    key: "RATTM-17HS3410",
+    brand: "RATTM",
+    model: "17HS3410",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 1.7,
+    holdingTorque: 28,
+    inductance: 1.8,
+    resistance: 1.2,
+    rotorInertia: 34
+  },
+  {
+    key: "RATTM-17HS3430",
+    brand: "RATTM",
+    model: "17HS3430",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 1.2,
+    holdingTorque: 28,
+    inductance: 3.8,
+    resistance: 2.3,
+    rotorInertia: 34
+  },
+  {
+    key: "RATTM-17HS8403",
+    brand: "RATTM",
+    model: "17HS8403",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.3,
+    holdingTorque: 46,
+    inductance: 1.6,
+    resistance: 1.2,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · SIBOOR ──
+  {
+    key: "SIBOOR-42STH48-2504(S45)",
+    brand: "SIBOOR",
+    model: "42STH48-2504(S45)",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 60,
+    inductance: 1.6,
+    resistance: 0.9,
+    rotorInertia: 72
+  },
+
+  // ── NEMA 17 · Wantai ──
+  {
+    key: "Wantai-42BYGHW609",
+    brand: "Wantai",
+    model: "42BYGHW609",
+    nema: 17,
+    bodyLength: 40,
+    stepAngle: 1.8,
+    ratedCurrent: 1.7,
+    holdingTorque: 40,
+    inductance: 2.8,
+    resistance: 2,
+    rotorInertia: 54
+  },
+  {
+    key: "Wantai-42BYGHW811",
+    brand: "Wantai",
+    model: "42BYGHW811",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 47,
+    inductance: 1.8,
+    resistance: 1.25,
+    rotorInertia: 68
+  },
+  {
+    key: "Wantai-42BYGHW811-06",
+    brand: "Wantai",
+    model: "42BYGHW811-06",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 60,
+    inductance: 1.75,
+    resistance: 1,
+    rotorInertia: 68
+  },
+  {
+    key: "Wantai-42BYGHW804 ",
+    brand: "Wantai",
+    model: "Wantai-42BYGHW804",
+    nema: 17,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 1.2,
+    holdingTorque: 45,
+    inductance: 5,
+    resistance: 3,
+    rotorInertia: 68
+  },
+
+  // ── NEMA 17 · YunTaiKe ──
+  {
+    key: "YunTaiKe-42CM02",
+    brand: "YunTaiKe",
+    model: "42CM02",
+    nema: 17,
+    bodyLength: 33,
+    stepAngle: 1.8,
+    ratedCurrent: 1.5,
+    holdingTorque: 20,
+    inductance: 1.4,
+    resistance: 1.4,
+    rotorInertia: 35
+  },
+  {
+    key: "YunTaiKe-42CM06",
+    brand: "YunTaiKe",
+    model: "42CM06",
+    nema: 17,
+    bodyLength: 47,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 60,
+    inductance: 1.6,
+    resistance: 0.9,
+    rotorInertia: 72
+  },
+  {
+    key: "YunTaiKe-42CM08",
+    brand: "YunTaiKe",
+    model: "42CM08",
+    nema: 17,
+    bodyLength: 60,
+    stepAngle: 1.8,
+    ratedCurrent: 2.5,
+    holdingTorque: 80,
+    inductance: 2.4,
+    resistance: 1,
+    rotorInertia: 110
+  },
+
+  // ── NEMA 14 · FYSETC ──
+  {
+    key: "FYSETC-G36HSY4407-6D-550",
+    brand: "FYSETC",
+    model: "G36HSY4407-6D-550",
+    nema: 14,
+    bodyLength: 20.5,
+    stepAngle: 1.8,
+    ratedCurrent: 0.5,
+    holdingTorque: 12,
+    inductance: 10,
+    resistance: 13,
+    rotorInertia: 15
+  },
+  {
+    key: "FYSETC-42HSC1404B-200N8",
+    brand: "FYSETC",
+    model: "42HSC1404B-200N8",
+    nema: 14,
+    bodyLength: 34.5,
+    stepAngle: 1.8,
+    ratedCurrent: 0.4,
+    holdingTorque: 32,
+    inductance: 38,
+    resistance: 29,
+    rotorInertia: 40
+  },
+  {
+    key: "FYSETC-35HSH7402-24B-400A",
+    brand: "FYSETC",
+    model: "35HSH7402-24B-400A",
+    nema: 14,
+    bodyLength: 51,
+    stepAngle: 1.8,
+    ratedCurrent: 1.5,
+    holdingTorque: 42,
+    inductance: 5.5,
+    resistance: 2.8,
+    rotorInertia: 48
+  },
+
+  // ── NEMA 14 · LDO ──
+  {
+    key: "LDO-36STH20-1004AHG(XH)",
+    brand: "LDO",
+    model: "36STH20-1004AHG(XH)",
+    nema: 14,
+    bodyLength: 20,
+    stepAngle: 1.8,
+    ratedCurrent: 1,
+    holdingTorque: 10,
+    inductance: 1.6,
+    resistance: 2.1,
+    rotorInertia: 16
+  },
+  {
+    key: "LDO-35STH48-1684AHVRN",
+    brand: "LDO",
+    model: "35STH48-1684AHVRN",
+    nema: 14,
+    bodyLength: 48,
+    stepAngle: 1.8,
+    ratedCurrent: 1.68,
+    holdingTorque: 40,
+    inductance: 2.8,
+    resistance: 1.65,
+    rotorInertia: 49
+  },
+  {
+    key: "LDO-35STH48-1504AH(VRN)",
+    brand: "LDO",
+    model: "35STH48-1504AH(VRN)",
+    nema: 14,
+    bodyLength: 52,
+    stepAngle: 1.8,
+    ratedCurrent: 1.5,
+    holdingTorque: 37,
+    inductance: 3.8,
+    resistance: 2.8,
+    rotorInertia: 51.8
+  },
+
+  // ── NEMA 14 · Moons ──
+  {
+    key: "Moons-MS14HA1P4150",
+    brand: "Moons",
+    model: "MS14HA1P4150",
+    nema: 14,
+    bodyLength: 27,
+    stepAngle: 0.9,
+    ratedCurrent: 1.5,
+    holdingTorque: 11,
+    inductance: 1.8,
+    resistance: 1.55,
+    rotorInertia: 12
+  },
+  {
+    key: "Moons-MS14HA3P4150",
+    brand: "Moons",
+    model: "MS14HA3P4150",
+    nema: 14,
+    bodyLength: 36,
+    stepAngle: 0.9,
+    ratedCurrent: 1.5,
+    holdingTorque: 18,
+    inductance: 2.2,
+    resistance: 1.61,
+    rotorInertia: 20
+  },
+
+  // ── NEMA 14 · OMC/StepperOnline ──
+  {
+    key: "OMC-14HS10-0404S",
+    brand: "OMC/StepperOnline",
+    model: "14HS10-0404S",
+    nema: 14,
+    bodyLength: 26,
+    stepAngle: 1.8,
+    ratedCurrent: 0.4,
+    holdingTorque: 14,
+    inductance: 30,
+    resistance: 30,
+    rotorInertia: 12
+  },
+  {
+    key: "OMC-14HS13-0804S",
+    brand: "OMC/StepperOnline",
+    model: "14HS13-0804S",
+    nema: 14,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 0.8,
+    holdingTorque: 18,
+    inductance: 10,
+    resistance: 6.8,
+    rotorInertia: 14
+  },
+  {
+    key: "OMC-14HS17-0504S",
+    brand: "OMC/StepperOnline",
+    model: "14HS17-0504S",
+    nema: 14,
+    bodyLength: 42,
+    stepAngle: 1.8,
+    ratedCurrent: 0.5,
+    holdingTorque: 23,
+    inductance: 26,
+    resistance: 15,
+    rotorInertia: 18
+  },
+  {
+    key: "OMC-14HS20-1504S",
+    brand: "OMC/StepperOnline",
+    model: "14HS20-1504S",
+    nema: 14,
+    bodyLength: 52,
+    stepAngle: 1.8,
+    ratedCurrent: 1.5,
+    holdingTorque: 40,
+    inductance: 3.8,
+    resistance: 2.8,
+    rotorInertia: 54
+  },
+
+  // ── NEMA 23 · Hanpose ──
+  {
+    key: "Hanpose-23HS4128",
+    brand: "Hanpose",
+    model: "23HS4128",
+    nema: 23,
+    bodyLength: 41,
+    stepAngle: 1.8,
+    ratedCurrent: 2.8,
+    holdingTorque: 55,
+    inductance: 1.4,
+    resistance: 0.7,
+    rotorInertia: 120
+  },
+
+  // ── NEMA 23 · LDO ──
+  {
+    key: "LDO-57STH41-2804MAC(HEV)",
+    brand: "LDO",
+    model: "57STH41-2804MAC(HEV)",
+    nema: 23,
+    bodyLength: 41,
+    stepAngle: 0.9,
+    ratedCurrent: 2.8,
+    holdingTorque: 60,
+    inductance: 1.4,
+    resistance: 0.7,
+    rotorInertia: 120
+  },
+  {
+    key: "LDO-57STH56-2804MAC(RC)",
+    brand: "LDO",
+    model: "57STH56-2804MAC(RC)",
+    nema: 23,
+    bodyLength: 56,
+    stepAngle: 0.9,
+    ratedCurrent: 2.8,
+    holdingTorque: 120,
+    inductance: 3.4,
+    resistance: 1.1,
+    rotorInertia: 305
+  },
+];
+
+// Default steppers shown when the browser has no saved selection yet.
+window.AK3D_DEFAULTS = [
+  "LDO-42STH48-2504AH(S45R)",
+  "StepperOnline-17HS19-2504S-H-V1",
+  "SIBOOR-42STH48-2504(S45)",
+  "LDO-42STH48-2804AH(S55)",
+  "LDO-42STH60-3004AC(S40) Kraken V2"
+];
