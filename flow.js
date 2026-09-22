@@ -104,6 +104,18 @@
     return Number.isFinite(v) && v > 0 ? v : fallback;
   };
 
+  // Model the laid-down extrusion as a rounded bead instead of a full rectangle.
+  // For the normal case width >= height this is a rectangle plus two semicircular ends:
+  // A = h * (w - h) + pi * (h / 2)^2
+  function extrusionArea(lineWidth, layerHeight) {
+    const w = Number(lineWidth);
+    const h = Number(layerHeight);
+    if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return 0;
+    if (w >= h) return h * (w - h) + Math.PI * Math.pow(h / 2, 2);
+    // Unusual geometry: fall back to an ellipse rather than returning a negative area.
+    return Math.PI * (w / 2) * (h / 2);
+  }
+
   Object.entries(ids).forEach(([key, id]) => {
     $(id).value = saved[key] ?? defaults[key];
   });
@@ -133,10 +145,10 @@
 
   function render() {
     const v = values();
-    const area = v.lineWidth * v.layerHeight;
+    const area = extrusionArea(v.lineWidth, v.layerHeight);
     const flow = area * v.speed;
-    const maxSpeed = v.maxFlow / area;
-    const targetSpeed = v.targetFlow / area;
+    const maxSpeed = area > 0 ? v.maxFlow / area : 0;
+    const targetSpeed = area > 0 ? v.targetFlow / area : 0;
     const load = flow / v.maxFlow * 100;
     const headroom = v.maxFlow - flow;
     const filamentArea = Math.PI * Math.pow(v.filament / 2, 2);
@@ -156,12 +168,13 @@
       status.innerHTML = `<b>${fmt(Math.abs(headroom), 2)} mm³/s over limit</b><span>Required flow is ${fmt(load - 100, 1)}% above the entered hotend flow limit.</span>`;
     }
 
-    $('flowDetail').innerHTML = `Extrusion cross-section: <b>${fmt(area, 3)} mm²</b> · Current flow: <b>${fmt(flow, 2)} mm³/s</b> · Target ${fmt(v.targetFlow, 2)} mm³/s = <b>${fmt(targetSpeed, 0)} mm/s</b> · Hotend limit ${fmt(v.maxFlow, 2)} mm³/s = <b>${fmt(maxSpeed, 0)} mm/s</b>.`;
+    $('flowDetail').innerHTML = `Rounded-bead cross-section: <b>${fmt(area, 3)} mm²</b> · Current flow: <b>${fmt(flow, 2)} mm³/s</b> · Target ${fmt(v.targetFlow, 2)} mm³/s = <b>${fmt(targetSpeed, 0)} mm/s</b> · Hotend limit ${fmt(v.maxFlow, 2)} mm³/s = <b>${fmt(maxSpeed, 0)} mm/s</b>.`;
 
     const warnings = [];
     if (v.layerHeight > v.nozzle * 0.8) warnings.push(`Layer height is above 80% of the ${fmt(v.nozzle, 2)} mm nozzle diameter.`);
     if (v.lineWidth < v.nozzle * 0.8) warnings.push('Line width is below 80% of nozzle diameter.');
     if (v.lineWidth > v.nozzle * 1.8) warnings.push('Line width is above 180% of nozzle diameter.');
+    if (v.lineWidth < v.layerHeight) warnings.push('Line width is below layer height; the calculator uses an elliptical fallback for this unusual geometry.');
     if (v.targetFlow > v.maxFlow) warnings.push(`Target flow is ${fmt(v.targetFlow - v.maxFlow, 2)} mm³/s above the entered hotend limit.`);
     $('flowWarnings').textContent = warnings.join(' ');
 
@@ -170,9 +183,10 @@
     baseHeights.sort((a, b) => a - b);
 
     $('flowTableBody').innerHTML = baseHeights.map(h => {
-      const q = v.lineWidth * h * v.speed;
-      const vmax = v.maxFlow / (v.lineWidth * h);
-      const vtarget = v.targetFlow / (v.lineWidth * h);
+      const rowArea = extrusionArea(v.lineWidth, h);
+      const q = rowArea * v.speed;
+      const vmax = rowArea > 0 ? v.maxFlow / rowArea : 0;
+      const vtarget = rowArea > 0 ? v.targetFlow / rowArea : 0;
       const pct = q / v.maxFlow * 100;
       const current = Math.abs(h - v.layerHeight) < 0.0001 ? ' current-row' : '';
       return `<tr class="${loadClass(pct)}${current}"><td><b>${h.toFixed(2)} mm</b></td><td>${q.toFixed(2)} mm³/s</td><td><b>${Math.round(vtarget)} mm/s</b></td><td><b>${Math.round(vmax)} mm/s</b></td><td>${pct.toFixed(1)}%</td></tr>`;
@@ -213,7 +227,8 @@
 
   $('flowUseMax').addEventListener('click', () => {
     const v = values();
-    $('flowSpeed').value = Math.round(v.maxFlow / (v.lineWidth * v.layerHeight));
+    const area = extrusionArea(v.lineWidth, v.layerHeight);
+    $('flowSpeed').value = area > 0 ? Math.round(v.maxFlow / area) : 0;
     render();
   });
 
