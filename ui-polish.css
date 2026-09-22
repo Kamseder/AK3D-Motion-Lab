@@ -5,11 +5,12 @@
 body{font-size:14px;line-height:1.45}
 
 /* Voron-inspired display typography: Play for identity/navigation/headings, neutral UI font for data. */
-.brandtext{min-width:245px;font-family:var(--ak3d-display)}
+.brandmark{width:56px;height:56px;flex:0 0 56px}
+.brandtext{min-width:265px;font-family:var(--ak3d-display)}
 .brandtext span{font-size:0;line-height:1;margin-bottom:2px}
-.brandtext span::before{content:"AK3D PRINTING";display:block;color:#8d8d8d;font-size:10px;font-weight:700;letter-spacing:.18em}
-.brandtext h1{font-family:var(--ak3d-display);font-size:24px;font-weight:700;line-height:.98;letter-spacing:.055em;text-transform:uppercase}
-.brandtext h1::after{content:"3D PRINTING CALCULATOR SUITE";display:block;margin-top:4px;color:#6f6f6f;font-size:9px;font-weight:400;line-height:1;letter-spacing:.12em}
+.brandtext span::before{content:"AK3D PRINTING";display:block;width:max-content;color:#fff;font-size:10px;font-weight:700;letter-spacing:.11em;line-height:1}
+.brandtext h1{width:max-content;margin:0;color:#fff;font-family:var(--ak3d-display);font-size:30px;font-weight:700;line-height:.92;letter-spacing:.04em;text-transform:uppercase}
+.brandtext h1::after{content:"3D PRINTING CALCULATOR SUITE";display:block;width:max-content;margin-top:5px;color:#fff;font-size:10px;font-weight:400;line-height:1;letter-spacing:.11em}
 .tab{font-family:var(--ak3d-display);font-size:13px;font-weight:700;letter-spacing:.035em;text-transform:uppercase}
 .section-head h2,.card-title-row h2{font-family:var(--ak3d-display);font-size:16px;font-weight:700;letter-spacing:.035em;text-transform:uppercase}
 .card-title-row p{font-size:12px;line-height:1.4}
@@ -86,9 +87,11 @@ footer::before{content:"AK3D MOTION LAB · 3D PRINTING CALCULATOR SUITE · Calcu
 }
 @media(max-width:650px){
   body{font-size:13px}
+  .brandmark{width:48px;height:48px;flex-basis:48px}
   .brandtext{min-width:0}
-  .brandtext h1{font-size:19px}
-  .brandtext h1::after{font-size:8px;letter-spacing:.08em}
+  .brandtext span::before{font-size:8.5px;letter-spacing:.09em}
+  .brandtext h1{font-size:23px;letter-spacing:.035em}
+  .brandtext h1::after{font-size:7.5px;letter-spacing:.075em;margin-top:4px}
   .tab{font-size:11px;letter-spacing:.02em}
   .flow-metrics{grid-template-columns:1fr 1fr}
   .metric strong{font-size:17px}
