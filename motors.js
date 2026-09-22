@@ -176,6 +176,53 @@ window.AK3D_MOTORS = [
     rotorInertia: 54
   },
 
+  // ── NEMA 17 · KELI/Creality ──
+  {
+    key: "KELI-Creality-BJ42D15-26V09",
+    brand: "KELI/Creality",
+    model: "BJ42D15-26V09",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 0.84,
+    holdingTorque: 28,
+    inductance: 8.8,
+    resistance: 6,
+    rotorInertia: 38,
+    source: "https://drive.google.com/file/d/10bUmRyaTjHy4UPEDfP2xxpU4MgqT2sci/view?usp=sharing",
+    note: "Creality 42-34 axis stepper. KELI performance code 26; V09/V10/V12 are mechanical variants. Electrical values follow the KELI BJ42D15-26V10 drawing."
+  },
+  {
+    key: "KELI-Creality-BJ42D15-26V10",
+    brand: "KELI/Creality",
+    model: "BJ42D15-26V10",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 0.84,
+    holdingTorque: 28,
+    inductance: 8.8,
+    resistance: 6,
+    rotorInertia: 38,
+    source: "https://drive.google.com/file/d/10bUmRyaTjHy4UPEDfP2xxpU4MgqT2sci/view?usp=sharing",
+    note: "Creality 42-34 axis stepper. KELI performance code 26; V09/V10/V12 are mechanical variants. Electrical values follow the KELI BJ42D15-26V10 drawing."
+  },
+  {
+    key: "KELI-Creality-BJ42D15-26V12",
+    brand: "KELI/Creality",
+    model: "BJ42D15-26V12",
+    nema: 17,
+    bodyLength: 34,
+    stepAngle: 1.8,
+    ratedCurrent: 0.84,
+    holdingTorque: 28,
+    inductance: 8.8,
+    resistance: 6,
+    rotorInertia: 38,
+    source: "https://drive.google.com/file/d/10bUmRyaTjHy4UPEDfP2xxpU4MgqT2sci/view?usp=sharing",
+    note: "Creality 42-34 axis stepper. KELI performance code 26; V09/V10/V12 are mechanical variants. Electrical values follow the KELI BJ42D15-26V10 drawing."
+  },
+
   // ── NEMA 17 · LDO ──
   {
     key: "LDO-42STH20-1004ASH",

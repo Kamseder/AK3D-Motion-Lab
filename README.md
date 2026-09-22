@@ -8,7 +8,7 @@ A browser-based 3D printing calculator suite for motion-system and extrusion tun
 - **Travel Time Calculator** – compare rest-to-rest moves across speed/acceleration profiles
 - **Accel / Speed Matrix** – theoretical torque margin across a configurable motion grid
 - **Volumetric Flow Calculator** – convert print speed to flow rate, calculate maximum speed from a hotend flow limit, show flow headroom and compare layer heights
-- 74 curated stepper entries in the public database
+- 77 curated stepper entries in the public database
 - Browser-local storage for custom steppers, selections, travel profiles and flow settings
 - No Excel, VBA, backend or build tool required
 
