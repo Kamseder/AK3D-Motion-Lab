@@ -25,10 +25,12 @@ jobs:
 
           const path = 'motors.js';
           const raw = fs.readFileSync(path, 'utf8').trim();
-          const match = raw.match(/^window\.AK3D_MOTORS\s*=\s*(\[[\s\S]*\]);?\s*$/);
-          if (!match) throw new Error('Could not parse motors.js');
+          const motorsMatch = raw.match(/window\.AK3D_MOTORS\s*=\s*(\[[\s\S]*?\]);/);
+          const defaultsMatch = raw.match(/window\.AK3D_DEFAULTS\s*=\s*(\[[\s\S]*?\]);?/);
+          if (!motorsMatch) throw new Error('Could not parse AK3D_MOTORS in motors.js');
 
-          let steppers = JSON.parse(match[1]);
+          let steppers = JSON.parse(motorsMatch[1]);
+          const defaults = defaultsMatch ? JSON.parse(defaultsMatch[1]) : [];
 
           // Make motors.js the single source of truth instead of fixing data later in preload.js.
           steppers = steppers.filter(stepper => String(stepper.brand || '').trim() !== 'Noname');
@@ -118,6 +120,15 @@ jobs:
             lines.push('  },');
           }
           lines.push('];', '');
+
+          lines.push('// Default steppers shown when the browser has no saved selection yet.');
+          lines.push('window.AK3D_DEFAULTS = [');
+          defaults.forEach((key, index) => {
+            const comma = index === defaults.length - 1 ? '' : ',';
+            lines.push(`  ${jsValue(key)}${comma}`);
+          });
+          lines.push('];', '');
+
           fs.writeFileSync(path, lines.join('\n'));
 
           const readmePath = 'README.md';
@@ -125,7 +136,7 @@ jobs:
           readme = readme.replace(/- \d+ stepper entries imported from the current workbook/, `- ${steppers.length} curated stepper entries in the public database`);
           fs.writeFileSync(readmePath, readme);
 
-          console.log(`Formatted ${steppers.length} steppers.`);
+          console.log(`Formatted ${steppers.length} steppers and ${defaults.length} defaults.`);
           NODE
 
       - name: Commit formatted database
