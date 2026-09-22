@@ -40,7 +40,7 @@
             <label><span>Input voltage</span><div class="input-unit"><input id="voltage" type="number" value="48" step="1"><b>V</b></div></label>
             <label><span>Drive current</span><div class="input-unit"><input id="driveCurrent" type="number" value="1.8" step="0.1"><b>A</b></div></label>
             <label><span>Max drive</span><div class="input-unit"><input id="drivePercent" type="number" value="100" step="5"><b>%</b></div></label>
-            <label><span>Max motor power</span><div class="input-unit"><input id="maxPower" type="number" value="50" step="5"><b>W</b></div></label>
+            <label><span>Max stepper power</span><div class="input-unit"><input id="maxPower" type="number" value="50" step="5"><b>W</b></div></label>
             <label><span>Pulley</span><div class="input-unit"><input id="pulley" type="number" value="20" step="1"><b>T</b></div></label>
             <label><span>Gear ratio</span><div class="input-unit"><input id="gear" type="number" value="1" step="0.1"><b>:1</b></div></label>
             <label><span>Acceleration</span><div class="input-unit"><input id="accel" type="number" value="20000" step="1000"><b>mm/s²</b></div></label>
@@ -50,12 +50,12 @@
           </div>
 
           <div class="divider"></div>
-          <div class="section-head"><h2>Motors</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
+          <div class="section-head"><h2>Steppers</h2><button id="addMotorSlot" class="ghost small">+ Slot</button></div>
           <div id="motorSlots" class="motor-slots"></div>
-          <p class="hint">Up to 8 motors. Selections are stored locally in your browser.</p>
+          <p class="hint">Up to 8 steppers. Selections are stored locally in your browser.</p>
 
           <div class="divider"></div>
-          <button id="customToggle" class="ghost full">+ Custom Motor</button>
+          <button id="customToggle" class="ghost full">+ Custom Stepper</button>
           <div id="customMotor" class="custom-box hidden">
             <div class="field-grid compact">
               <label class="wide"><span>Name</span><input id="cName" placeholder="e.g. AK Test 2504"></label>
@@ -66,7 +66,7 @@
               <label><span>Rotor inertia g·cm²</span><input id="cInertia" type="number" value="80" step="1"></label>
               <label><span>Step angle °</span><input id="cStep" type="number" value="1.8" step="0.1"></label>
             </div>
-            <button id="addCustom" class="primary full">Add custom motor</button>
+            <button id="addCustom" class="primary full">Add custom stepper</button>
           </div>
         </aside>
 
@@ -74,21 +74,21 @@
           <div class="metrics">
             <div class="metric"><span>Torque required</span><strong id="metricTorque">–</strong></div>
             <div class="metric"><span>Pulley radius</span><strong id="metricRadius">–</strong></div>
-            <div class="metric"><span>Selected motors</span><strong id="metricCount">–</strong></div>
+            <div class="metric"><span>Selected steppers</span><strong id="metricCount">–</strong></div>
             <div class="metric"><span>Graph range</span><strong id="metricRange">–</strong></div>
           </div>
 
           <section class="card chart-card">
             <div class="card-title-row">
-              <div><h2>Available torque vs. speed</h2><p>Motor torque after drive limits and rotor-inertia demand.</p></div>
+              <div><h2>Available torque vs. speed</h2><p>Stepper torque after drive limits and rotor-inertia demand.</p></div>
               <div id="legend" class="legend"></div>
             </div>
             <div class="chart-wrap"><svg id="torqueChart" viewBox="0 0 1200 560" preserveAspectRatio="none"></svg><div id="tooltip" class="tooltip"></div></div>
           </section>
 
           <details class="card table-card motor-details">
-            <summary>Motor details</summary>
-            <div class="table-scroll"><table><thead><tr><th>Motor</th><th>Rated A</th><th>Holding Ncm</th><th>L mH</th><th>R Ω</th><th>Rotor g·cm²</th><th>Drive A</th><th>Rotor loss Ncm</th><th>Last point ≥ required</th></tr></thead><tbody id="motorResults"></tbody></table></div>
+            <summary>Stepper details</summary>
+            <div class="table-scroll"><table><thead><tr><th>Stepper</th><th>Rated A</th><th>Holding Ncm</th><th>L mH</th><th>R Ω</th><th>Rotor g·cm²</th><th>Drive A</th><th>Rotor loss Ncm</th><th>Last point ≥ required</th></tr></thead><tbody id="motorResults"></tbody></table></div>
           </details>
         </div>
       </div>
@@ -118,7 +118,7 @@
       <div class="tool-grid matrix-layout">
         <aside class="card tool-card matrix-controls">
           <div class="card-title-row"><div><h2>Accel / Speed Matrix</h2><p>Theoretical torque margin across a speed/acceleration grid.</p></div></div>
-          <label><span>Matrix motor</span><select id="matrixMotor"></select></label>
+          <label><span>Matrix stepper</span><select id="matrixMotor"></select></label>
           <div class="field-grid matrix-inputs">
             <label><span>Speed min</span><input id="matrixSpeedMin" type="number" value="500" step="100"></label>
             <label><span>Speed max</span><input id="matrixSpeedMax" type="number" value="1500" step="100"></label>
