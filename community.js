@@ -93,6 +93,12 @@
     const grid = box?.querySelector('.field-grid');
     if (!box || !grid || $('cSource')) return;
 
+    const localButton = $('addCustom');
+    if (localButton) localButton.textContent = 'ADD MOTOR LOCALLY';
+
+    const toggle = $('customToggle');
+    if (toggle) toggle.textContent = '+ CUSTOM MOTOR';
+
     const brandLabel = document.createElement('label');
     brandLabel.innerHTML = '<span>Brand</span><input id="cBrand" placeholder="e.g. LDO, SIBOOR, OMC">';
 
@@ -114,13 +120,12 @@
     const submit = document.createElement('button');
     submit.id = 'submitMotorDb';
     submit.type = 'button';
-    submit.className = 'ghost full';
+    submit.className = 'ghost full motor-db-action';
     submit.textContent = 'SUBMIT MOTOR TO DATABASE';
-    submit.style.marginTop = '8px';
 
     const hint = document.createElement('p');
-    hint.className = 'hint';
-    hint.textContent = 'Opens a pre-filled GitHub review request. Nothing is added to the public database until it has been checked and approved.';
+    hint.className = 'hint custom-motor-action-hint';
+    hint.textContent = 'ADD MOTOR LOCALLY saves the motor only in this browser. SUBMIT MOTOR TO DATABASE opens a GitHub review request; nothing enters the public database until it has been checked and approved.';
 
     box.appendChild(submit);
     box.appendChild(hint);
