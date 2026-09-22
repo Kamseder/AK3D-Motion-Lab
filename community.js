@@ -32,6 +32,13 @@
     return n === null ? '? mm' : `${Number(n.toFixed(1))} mm`;
   }
 
+  function motorDisplayLabel(m) {
+    if (!m) return '';
+    const brand = String(m.brand || 'Other').trim() || 'Other';
+    const model = String(m.model || m.key || 'Unknown').trim() || 'Unknown';
+    return `${brand} · ${bodyLengthLabel(m)} · ${model}`;
+  }
+
   function compareMotorLengthThenModel(a, b) {
     const aLen = bodyLength(a);
     const bLen = bodyLength(b);
@@ -74,7 +81,7 @@
       group.motors.forEach(m => {
         const option = document.createElement('option');
         option.value = m.key;
-        option.textContent = `${bodyLengthLabel(m)} · ${m.model || m.key}`;
+        option.textContent = motorDisplayLabel(m);
         optgroup.appendChild(option);
       });
       frag.appendChild(optgroup);
@@ -86,6 +93,79 @@
   function sortMotorSelectors() {
     document.querySelectorAll('#motorSlots select').forEach(s => rebuildSelect(s, '— Select motor —'));
     rebuildSelect($('matrixMotor'), null);
+  }
+
+  function selectedMotorObjects() {
+    const map = new Map(allMotors().map(m => [m.key, m]));
+    return [...document.querySelectorAll('#motorSlots select')]
+      .map(select => map.get(select.value))
+      .filter(Boolean)
+      .slice(0, 8);
+  }
+
+  function relabelTorqueLegend() {
+    const legend = $('legend');
+    if (!legend) return;
+    const motors = selectedMotorObjects();
+    const items = [...legend.querySelectorAll('.legend-item')];
+    motors.forEach((motor, index) => {
+      const item = items[index];
+      if (!item) return;
+      const textNode = [...item.childNodes].find(node => node.nodeType === Node.TEXT_NODE);
+      const label = motorDisplayLabel(motor);
+      if (textNode && textNode.nodeValue !== label) textNode.nodeValue = label;
+    });
+  }
+
+  function relabelMotorResults() {
+    const body = $('motorResults');
+    if (!body) return;
+    const motors = selectedMotorObjects();
+    [...body.querySelectorAll('tr')].forEach((row, index) => {
+      const badge = row.querySelector('td:first-child .badge');
+      const motor = motors[index];
+      if (!badge || !motor) return;
+      const label = motorDisplayLabel(motor);
+      if (badge.textContent !== label) badge.textContent = label;
+    });
+  }
+
+  function relabelTorqueTooltip() {
+    const tooltip = $('tooltip');
+    if (!tooltip || tooltip.style.display === 'none') return;
+    const motors = selectedMotorObjects();
+    const textNodes = [];
+    const walker = document.createTreeWalker(tooltip, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+    motors.forEach(motor => {
+      const model = String(motor.model || motor.key || '').trim();
+      if (!model) return;
+      const full = motorDisplayLabel(motor);
+      textNodes.forEach(node => {
+        const needle = ` ${model}: `;
+        if (node.nodeValue.includes(needle)) {
+          const next = node.nodeValue.replace(needle, ` ${full}: `);
+          if (next !== node.nodeValue) node.nodeValue = next;
+        }
+      });
+    });
+  }
+
+  function relabelRenderedMotorNames() {
+    relabelTorqueLegend();
+    relabelMotorResults();
+    relabelTorqueTooltip();
+  }
+
+  function watchRenderedMotorNames() {
+    const observer = new MutationObserver(() => relabelRenderedMotorNames());
+    const legend = $('legend');
+    const results = $('motorResults');
+    const tooltip = $('tooltip');
+    if (legend) observer.observe(legend, {childList:true, subtree:true});
+    if (results) observer.observe(results, {childList:true, subtree:true});
+    if (tooltip) observer.observe(tooltip, {childList:true, subtree:true});
   }
 
   function addSubmissionFields() {
@@ -203,17 +283,25 @@
       setTimeout(() => {
         enrichNewestCustomMotor();
         sortMotorSelectors();
+        relabelRenderedMotorNames();
       }, 0);
       return;
     }
     if (target.closest?.('#motorSlots') || target.id === 'addMotorSlot' || target.id === 'matrixMotor') {
-      setTimeout(sortMotorSelectors, 0);
+      setTimeout(() => {
+        sortMotorSelectors();
+        relabelRenderedMotorNames();
+      }, 0);
     }
   }
 
   function init() {
     addSubmissionFields();
-    setTimeout(sortMotorSelectors, 0);
+    watchRenderedMotorNames();
+    setTimeout(() => {
+      sortMotorSelectors();
+      relabelRenderedMotorNames();
+    }, 0);
     document.addEventListener('click', refreshAfterUiChange);
     document.addEventListener('change', refreshAfterUiChange);
   }
