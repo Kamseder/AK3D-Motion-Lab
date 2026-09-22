@@ -8,7 +8,7 @@ A browser-based 3D printing calculator suite for motion-system and extrusion tun
 - **Travel Time Calculator** – compare rest-to-rest moves across speed/acceleration profiles
 - **Accel / Speed Matrix** – theoretical torque margin across a configurable motion grid
 - **Volumetric Flow Calculator** – convert print speed to flow rate, calculate maximum speed from a hotend flow limit, show flow headroom and compare layer heights
-- 74 stepper entries imported from the current workbook
+- 73 curated stepper entries in the public database
 - Browser-local storage for custom steppers, selections, travel profiles and flow settings
 - No Excel, VBA, backend or build tool required
 
@@ -18,7 +18,9 @@ This repository is a static site. Publish the `main` branch from `/ (root)` in *
 
 ## Stepper database
 
-The public stepper database currently lives in `motors.js` (legacy/internal filename). Each database entry uses the same fields:
+The public stepper database currently lives in `motors.js` (legacy/internal filename). The file is ordered the same way as the UI: **NEMA size → brand → body length → model**, with one readable block per stepper.
+
+Each database entry uses the same fields:
 
 ```js
 {
@@ -40,6 +42,17 @@ The public stepper database currently lives in `motors.js` (legacy/internal file
 `key` must be unique and should stay stable because browser-local selections reference it. `brand`, `model`, `nema` and `bodyLength` control how steppers are grouped, sorted and displayed. The electrical values drive the torque calculation. Unknown optional values can be `null`; a source URL is recommended whenever specs are added or corrected.
 
 For a consistent database, use manufacturer names consistently, keep model names exactly as published, use body length in mm, rated phase current in A, holding torque in N·cm, inductance in mH, resistance in Ω and rotor inertia in g·cm².
+
+### Editing the database on GitHub
+
+Open `motors.js` and click the pencil / **Edit this file** button. Find the matching `NEMA · Brand` heading and then:
+
+- **Correct a stepper:** edit the values inside its existing block. Keep its `key` unchanged unless you intentionally want saved browser selections for that entry to stop matching.
+- **Add a stepper:** copy a nearby block, give it a new unique `key`, enter the verified values and place it in the correct brand group by body length.
+- **Remove a stepper:** delete its complete `{ ... },` block.
+- **Add a source:** use `source: "https://..."` so the values can be checked again later.
+
+Commit the edit when finished. The site reads this file directly; there is no build step or separate backend database to update.
 
 ## Calculation notes
 
