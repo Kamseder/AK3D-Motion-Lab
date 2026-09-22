@@ -46,7 +46,6 @@
   } catch (_) {}
 
   const NS = "http://www.w3.org/2000/svg";
-  const stepperByKey = key => (window.AK3D_MOTORS || []).find(stepper => stepper.key === key);
 
   function svgEl(name, attrs = {}, text = "") {
     const el = document.createElementNS(NS, name);
@@ -129,23 +128,6 @@
     if (firstAxis) svg.insertBefore(group, firstAxis); else svg.appendChild(group);
   }
 
-  function enhanceMatrixBrand() {
-    const select = document.getElementById("matrixMotor");
-    if (!select) return;
-
-    // app.js is the single source of truth for option labels and sorting. This
-    // enhancement only shows the selected manufacturer's name below the selector.
-    const stepper = stepperByKey(select.value);
-    let brand = document.getElementById("matrixBrand");
-    if (!brand) {
-      brand = document.createElement("div");
-      brand.id = "matrixBrand";
-      brand.className = "matrix-brand";
-      select.closest("label")?.insertAdjacentElement("afterend", brand);
-    }
-    if (brand) brand.innerHTML = stepper ? `Brand: <b>${stepper.brand || "Other"}</b>` : "";
-  }
-
   function forceStepperDetailsOpen() {
     const details = document.querySelector(".motor-details");
     if (details) details.open = true;
@@ -211,7 +193,6 @@
     requestAnimationFrame(() => {
       forceStepperDetailsOpen();
       compactTravelLabels();
-      enhanceMatrixBrand();
       enhanceChart();
       ensureTravelGuide();
     });
