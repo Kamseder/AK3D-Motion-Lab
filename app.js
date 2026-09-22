@@ -21,6 +21,50 @@
 
   function motors(){ return [...BASE_MOTORS, ...state.custom]; }
   function motorMap(){ return new Map(motors().map(m => [m.key,m])); }
+
+  function bodyLength(m){
+    const n=Number(m?.bodyLength);
+    return Number.isFinite(n)&&n>0?n:null;
+  }
+  function bodyLengthLabel(m){
+    const n=bodyLength(m);
+    return n===null?'? mm':`${Number(n.toFixed(1))} mm`;
+  }
+  function stepperLabel(m){
+    if(!m)return '';
+    const brand=String(m.brand||'Other').trim()||'Other';
+    const model=String(m.model||m.key||'Unknown').trim()||'Unknown';
+    return `${brand} · ${bodyLengthLabel(m)} · ${model}`;
+  }
+  function nemaRank(nema){
+    const n=Number(nema);
+    if(n===17)return 0;
+    if(n===14)return 1;
+    if(n===23)return 2;
+    return 10+(Number.isFinite(n)?n:99);
+  }
+  function compareStepper(a,b){
+    const al=bodyLength(a),bl=bodyLength(b);
+    if(al===null&&bl!==null)return 1;
+    if(al!==null&&bl===null)return -1;
+    if(al!==null&&bl!==null&&al!==bl)return al-bl;
+    return String(a.model||a.key).localeCompare(String(b.model||b.key),undefined,{numeric:true,sensitivity:'base'});
+  }
+  function stepperGroups(){
+    const groups=new Map();
+    motors().forEach(m=>{
+      const nema=Number.isFinite(Number(m.nema))?Number(m.nema):'Other';
+      const brand=String(m.brand||'Other').trim()||'Other';
+      const key=`${nema}|||${brand}`;
+      if(!groups.has(key))groups.set(key,{nema,brand,list:[]});
+      groups.get(key).list.push(m);
+    });
+    return [...groups.values()].sort((a,b)=>{
+      const n=nemaRank(a.nema)-nemaRank(b.nema);
+      return n||a.brand.localeCompare(b.brand,undefined,{sensitivity:'base'});
+    }).map(g=>({...g,list:g.list.sort(compareStepper)}));
+  }
+
   function getSetup(overrides={}){
     return Object.assign({
       voltage:num("voltage"), driveCurrent:num("driveCurrent"), drivePercent:num("drivePercent")/100,
@@ -58,11 +102,11 @@
   }
 
   function motorOptions(selected){
-    const groups = new Map();
-    motors().forEach(m=>{ const g=m.brand || "Other"; if(!groups.has(g))groups.set(g,[]); groups.get(g).push(m); });
-    let out='<option value="">— Motor wählen —</option>';
-    [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).forEach(([brand,list])=>{
-      out += `<optgroup label="${esc(brand)}">` + list.sort((a,b)=>String(a.model||a.key).localeCompare(String(b.model||b.key))).map(m=>`<option value="${esc(m.key)}" ${m.key===selected?'selected':''}>${esc(m.model||m.key)}</option>`).join('') + '</optgroup>';
+    let out='<option value="">— Select stepper —</option>';
+    stepperGroups().forEach(group=>{
+      out+=`<optgroup label="NEMA ${esc(group.nema)} · ${esc(group.brand)}">`+
+        group.list.map(m=>`<option value="${esc(m.key)}" ${m.key===selected?'selected':''}>${esc(stepperLabel(m))}</option>`).join('')+
+        '</optgroup>';
     });
     return out;
   }
@@ -106,14 +150,14 @@
     g+=`<line id="hoverLine" class="hover-line" x1="0" x2="0" y1="${p.t}" y2="${H-p.b}"/><rect id="chartHit" x="${p.l}" y="${p.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
     svg.innerHTML=g;
     const hit=svg.querySelector('#chartHit'), hover=svg.querySelector('#hoverLine');
-    hit.addEventListener('mousemove',ev=>{const rect=svg.getBoundingClientRect(),mx=(ev.clientX-rect.left)/rect.width*W,speed=clamp((mx-p.l)/iw*s.maxSpeed,0,s.maxSpeed),X=sx(speed);hover.setAttribute('x1',X);hover.setAttribute('x2',X);hover.style.opacity=1;let rows=[`<b>${speed.toFixed(0)} mm/s</b>`,`Required: ${req.toFixed(2)} Ncm`];datasets.forEach(d=>{const c=motorCalc(d.m,speed,s);if(c)rows.push(`<span style="color:${d.color}">●</span> ${esc(d.m.model||d.m.key)}: <b>${c.torque.toFixed(2)}</b> Ncm`)});tt.innerHTML=rows.join('<br>');tt.style.display='block';tt.style.left=Math.min(ev.offsetX+14,rect.width-245)+'px';tt.style.top=(ev.offsetY+12)+'px';});
+    hit.addEventListener('mousemove',ev=>{const rect=svg.getBoundingClientRect(),mx=(ev.clientX-rect.left)/rect.width*W,speed=clamp((mx-p.l)/iw*s.maxSpeed,0,s.maxSpeed),X=sx(speed);hover.setAttribute('x1',X);hover.setAttribute('x2',X);hover.style.opacity=1;let rows=[`<b>${speed.toFixed(0)} mm/s</b>`,`Required: ${req.toFixed(2)} Ncm`];datasets.forEach(d=>{const c=motorCalc(d.m,speed,s);if(c)rows.push(`<span style="color:${d.color}">●</span> ${esc(stepperLabel(d.m))}: <b>${c.torque.toFixed(2)}</b> Ncm`)});tt.innerHTML=rows.join('<br>');tt.style.display='block';tt.style.left=Math.min(ev.offsetX+14,rect.width-245)+'px';tt.style.top=(ev.offsetY+12)+'px';});
     hit.addEventListener('mouseleave',()=>{hover.style.opacity=0;tt.style.display='none';});
-    $("legend").innerHTML=datasets.map(d=>`<span class="legend-item"><span class="swatch" style="background:${d.color}"></span>${esc(d.m.model||d.m.key)}</span>`).join('')+`<span class="legend-item"><span class="swatch" style="background:var(--danger)"></span>Torque required</span>`;
+    $("legend").innerHTML=datasets.map(d=>`<span class="legend-item"><span class="swatch" style="background:${d.color}"></span>${esc(stepperLabel(d.m))}</span>`).join('')+`<span class="legend-item"><span class="swatch" style="background:var(--danger)"></span>Torque required</span>`;
   }
 
   function renderMotorResults(){
     const s=getSetup(),req=torqueRequired(s),ms=selectedMotors();
-    $("motorResults").innerHTML=ms.map((m,i)=>{const data=curveData(m,s);let last=null;data.forEach(p=>{if(p.torque>=req)last=p.speed;});const c0=motorCalc(m,0,s);return `<tr><td><span class="badge" style="border-left:4px solid ${COLORS[i%COLORS.length]}">${esc(m.key)}</span></td><td>${fmt(m.ratedCurrent,2)}</td><td>${fmt(m.holdingTorque,1)}</td><td>${fmt(m.inductance,2)}</td><td>${fmt(m.resistance,2)}</td><td>${fmt(m.rotorInertia,1)}</td><td>${c0?c0.drive.toFixed(2):'–'}</td><td>${c0?c0.rotorTorque.toFixed(2):'–'}</td><td><b>${last===null?'0':Math.round(last)} mm/s</b></td></tr>`;}).join('');
+    $("motorResults").innerHTML=ms.map((m,i)=>{const data=curveData(m,s);let last=null;data.forEach(p=>{if(p.torque>=req)last=p.speed;});const c0=motorCalc(m,0,s);return `<tr><td><span class="badge" style="border-left:4px solid ${COLORS[i%COLORS.length]}">${esc(stepperLabel(m))}</span></td><td>${fmt(m.ratedCurrent,2)}</td><td>${fmt(m.holdingTorque,1)}</td><td>${fmt(m.inductance,2)}</td><td>${fmt(m.resistance,2)}</td><td>${fmt(m.rotorInertia,1)}</td><td>${c0?c0.drive.toFixed(2):'–'}</td><td>${c0?c0.rotorTorque.toFixed(2):'–'}</td><td><b>${last===null?'0':Math.round(last)} mm/s</b></td></tr>`;}).join('');
   }
 
   function travelTime(distance,speed,accel){
@@ -139,11 +183,16 @@
   }
 
   function renderMatrixMotorOptions(){
-    const old=$("matrixMotor").value;
-    const opts=motors().map(m=>`<option value="${esc(m.key)}">${esc((m.brand?m.brand+' · ':'')+(m.model||m.key))}</option>`).join('');
-    $("matrixMotor").innerHTML=opts;
-    const preferred = old || state.motorKeys.find(Boolean) || DEFAULTS[0] || motors()[0]?.key;
-    if(preferred && motors().some(m=>m.key===preferred)) $("matrixMotor").value=preferred;
+    const select=$("matrixMotor"),old=select.value;
+    let html='';
+    stepperGroups().forEach(group=>{
+      html+=`<optgroup label="NEMA ${esc(group.nema)} · ${esc(group.brand)}">`+
+        group.list.map(m=>`<option value="${esc(m.key)}">${esc(stepperLabel(m))}</option>`).join('')+
+        '</optgroup>';
+    });
+    select.innerHTML=html;
+    const preferred=old||state.motorKeys.find(Boolean)||DEFAULTS[0]||motors()[0]?.key;
+    if(preferred&&motors().some(m=>m.key===preferred))select.value=preferred;
   }
 
   function rangeValues(min,max,step,maxCount=30){
@@ -151,13 +200,13 @@
   }
   function matrixClass(margin){if(margin<0)return 'cell-fail';if(margin<.2)return 'cell-tight';if(margin<.5)return 'cell-good';return 'cell-strong';}
   function renderMatrix(){
-    const map=motorMap(),m=map.get($("matrixMotor").value);if(!m){$("matrixTable").innerHTML='<p class="hint">Select a motor.</p>';return;}
+    const map=motorMap(),m=map.get($("matrixMotor").value);if(!m){$("matrixTable").innerHTML='<p class="hint">Select a stepper.</p>';return;}
     const speeds=rangeValues(num('matrixSpeedMin'),num('matrixSpeedMax'),num('matrixSpeedStep'),24),accels=rangeValues(num('matrixAccelMin'),num('matrixAccelMax'),num('matrixAccelStep'),30);
     let html='<table class="matrix-table"><thead><tr><th>Accel ↓ / Speed →</th>'+speeds.map(v=>`<th>${Math.round(v)}<small>mm/s</small></th>`).join('')+'</tr></thead><tbody>';
     let pass=0,total=0,bestSpeed=0;
     for(const a of accels){html+=`<tr><td>${Math.round(a/1000)}k<small>mm/s²</small></td>`;for(const v of speeds){const s=getSetup({accel:a}),req=torqueRequired(s),c=motorCalc(m,v,s);let margin=c&&req>0?c.torque/req-1:-Infinity;total++;if(margin>=0){pass++;bestSpeed=Math.max(bestSpeed,v);}const cls=matrixClass(margin);const label=Number.isFinite(margin)?(margin>=0?`+${Math.round(margin*100)}%`:`${Math.round(margin*100)}%`):'–';html+=`<td class="${cls}" title="Avail ${c?c.torque.toFixed(2):'–'} Ncm / Req ${req.toFixed(2)} Ncm"><span class="passmark">${margin>=0?'✓':'×'}</span> ${label}<small>${c?c.torque.toFixed(1):'–'} / ${req.toFixed(1)} Ncm</small></td>`;}html+='</tr>';}
     html+='</tbody></table>';$("matrixTable").innerHTML=html;
-    $("matrixSummary").innerHTML=`<span class="summary-chip"><b>${esc(m.model||m.key)}</b></span><span class="summary-chip">Cells passing: <b>${pass}/${total}</b></span><span class="summary-chip">Highest passing speed in grid: <b>${bestSpeed||0} mm/s</b></span><span class="summary-chip">Voltage: <b>${num('voltage')} V</b> · Drive: <b>${num('driveCurrent')} A</b> · Mass: <b>${num('mass')} g</b></span>`;
+    $("matrixSummary").innerHTML=`<span class="summary-chip"><b>${esc(stepperLabel(m))}</b></span><span class="summary-chip">Cells passing: <b>${pass}/${total}</b></span><span class="summary-chip">Highest passing speed in grid: <b>${bestSpeed||0} mm/s</b></span><span class="summary-chip">Voltage: <b>${num('voltage')} V</b> · Drive: <b>${num('driveCurrent')} A</b> · Mass: <b>${num('mass')} g</b></span>`;
   }
 
   function renderAll(){renderMetrics();renderTorqueChart();renderMotorResults();renderMatrix();}
@@ -168,7 +217,21 @@
   $('resetSetup').addEventListener('click',()=>{const d={voltage:48,driveCurrent:1.8,drivePercent:100,maxPower:50,pulley:20,gear:1,accel:20000,mass:500,maxSpeed:3000,resolution:20};Object.entries(d).forEach(([k,v])=>$(k).value=v);renderAll();});
   $('addMotorSlot').addEventListener('click',()=>{if(state.motorKeys.length>=8)return;state.motorKeys.push('');persistMotorSlots();renderMotorSlots();});
   $('customToggle').addEventListener('click',()=>$('customMotor').classList.toggle('hidden'));
-  $('addCustom').addEventListener('click',()=>{const name=$('cName').value.trim();if(!name)return alert('Name fehlt.');const m={key:'CUSTOM-'+name,brand:'Custom',model:name,nema:17,bodyLength:null,stepAngle:num('cStep'),ratedCurrent:num('cCurrent'),holdingTorque:num('cTorque'),inductance:num('cInduct'),resistance:num('cRes'),rotorInertia:num('cInertia')};state.custom.push(m);localStorage.setItem('ak3d-custom-motors',JSON.stringify(state.custom));if(state.motorKeys.length<8)state.motorKeys.push(m.key);else state.motorKeys[state.motorKeys.length-1]=m.key;persistMotorSlots();$('cName').value='';renderMotorSlots();renderMatrixMotorOptions();renderAll();});
+  $('addCustom').addEventListener('click',()=>{
+    const name=$('cName').value.trim();
+    if(!name)return alert('Please enter a stepper model/name.');
+    const brand=$('cBrand')?.value.trim()||'Custom';
+    const nemaRaw=$('cNema')?.value;
+    const nema=Number.isFinite(Number(nemaRaw))?Number(nemaRaw):null;
+    const lengthRaw=$('cBodyLength')?.value;
+    const bodyLengthValue=lengthRaw!==''&&Number.isFinite(Number(lengthRaw))?Number(lengthRaw):null;
+    const source=$('cSource')?.value.trim()||'';
+    const m={key:'CUSTOM-'+name,brand,model:name,nema,bodyLength:bodyLengthValue,stepAngle:num('cStep'),ratedCurrent:num('cCurrent'),holdingTorque:num('cTorque'),inductance:num('cInduct'),resistance:num('cRes'),rotorInertia:num('cInertia'),source};
+    state.custom.push(m);
+    localStorage.setItem('ak3d-custom-motors',JSON.stringify(state.custom));
+    if(state.motorKeys.length<8)state.motorKeys.push(m.key);else state.motorKeys[state.motorKeys.length-1]=m.key;
+    persistMotorSlots();$('cName').value='';renderMotorSlots();renderMatrixMotorOptions();renderAll();
+  });
 
   $('travelDistance').addEventListener('input',renderTravelResults);
   document.querySelectorAll('[data-distance]').forEach(b=>b.addEventListener('click',()=>{$('travelDistance').value=b.dataset.distance;document.querySelectorAll('[data-distance]').forEach(x=>x.classList.toggle('active',x===b));renderTravelResults();}));
