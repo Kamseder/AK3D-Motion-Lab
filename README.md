@@ -4,23 +4,48 @@ A browser-based 3D printing calculator suite for motion-system and extrusion tun
 
 ## Tools
 
-- **Stepper Torque Simulator** – torque-vs-speed comparison with up to 8 motors, custom motor entries and the calculation model from the original spreadsheet
+- **Stepper Torque Simulator** – torque-vs-speed comparison with up to 8 steppers, custom stepper entries and the calculation model from the original spreadsheet
 - **Travel Time Calculator** – compare rest-to-rest moves across speed/acceleration profiles
 - **Accel / Speed Matrix** – theoretical torque margin across a configurable motion grid
 - **Volumetric Flow Calculator** – convert print speed to flow rate, calculate maximum speed from a hotend flow limit, show flow headroom and compare layer heights
-- 74 motor entries imported from the current workbook
-- Browser-local storage for custom motors, selections, travel profiles and flow settings
+- 74 stepper entries imported from the current workbook
+- Browser-local storage for custom steppers, selections, travel profiles and flow settings
 - No Excel, VBA, backend or build tool required
 
 ## GitHub Pages
 
 This repository is a static site. Publish the `main` branch from `/ (root)` in **Settings → Pages**.
 
+## Stepper database
+
+The public stepper database currently lives in `motors.js` (legacy/internal filename). Each database entry uses the same fields:
+
+```js
+{
+  key: "LDO-42STH48-2504AH",
+  brand: "LDO",
+  model: "42STH48-2504AH",
+  nema: 17,
+  bodyLength: 48,
+  stepAngle: 1.8,
+  ratedCurrent: 2.5,
+  holdingTorque: 55,
+  inductance: 1.5,
+  resistance: 1.2,
+  rotorInertia: 84.5,
+  source: "https://..."
+}
+```
+
+`key` must be unique and should stay stable because browser-local selections reference it. `brand`, `model`, `nema` and `bodyLength` control how steppers are grouped, sorted and displayed. The electrical values drive the torque calculation. Unknown optional values can be `null`; a source URL is recommended whenever specs are added or corrected.
+
+For a consistent database, use manufacturer names consistently, keep model names exactly as published, use body length in mm, rated phase current in A, holding torque in N·cm, inductance in mH, resistance in Ω and rotor inertia in g·cm².
+
 ## Calculation notes
 
 ### Stepper model
 
-The motor model mirrors the current spreadsheet logic: drive-current and power limits, back-EMF / inductive impedance, holding-torque scaling and rotor-inertia torque demand. It is a comparative simulation, not a dyno model.
+The stepper model mirrors the current spreadsheet logic: drive-current and power limits, back-EMF / inductive impedance, holding-torque scaling and rotor-inertia torque demand. It is a comparative simulation, not a dyno model.
 
 Real-world motion limits can differ because of driver/chopper tuning, bus-voltage sag, temperature, belt dynamics, resonance, frame stiffness, bearings and mechanical losses.
 
@@ -42,4 +67,4 @@ Maximum print speed at a known hotend flow limit and target-flow-to-speed conver
 
 ## Data note
 
-Motor parameters are copied from the supplied/current workbook database. They are not independently re-verified against manufacturers in this repository.
+Stepper parameters are copied from the supplied/current workbook database unless a source is stored with the entry. They are not all independently re-verified against manufacturers in this repository.
