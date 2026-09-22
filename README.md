@@ -26,11 +26,19 @@ Real-world motion limits can differ because of driver/chopper tuning, bus-voltag
 
 ### Flow model
 
-Volumetric flow is calculated geometrically:
+Volumetric flow uses a rounded laid-down extrusion bead rather than treating the line as a full rectangle.
 
-`flow [mm³/s] = line width [mm] × layer height [mm] × print speed [mm/s]`
+For the normal case where line width `w` is at least the layer height `h`, cross-sectional area is:
 
-Maximum print speed at a known hotend flow limit is the inverse calculation. Real extrusion limits depend on material, temperature, nozzle geometry, heater power and the quality threshold you consider acceptable.
+`area [mm²] = h × (w − h) + π × (h / 2)²`
+
+and volumetric flow is:
+
+`flow [mm³/s] = area [mm²] × print speed [mm/s]`
+
+Example: `0.40 mm` line width × `0.20 mm` layer height produces an area of about `0.0714 mm²`, so at `300 mm/s` the calculated flow is about `21.42 mm³/s`.
+
+Maximum print speed at a known hotend flow limit and target-flow-to-speed conversion use the same cross-section model. Real extrusion limits still depend on material, temperature, nozzle geometry, heater power and the quality threshold you consider acceptable.
 
 ## Data note
 
